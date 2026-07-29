@@ -1,0 +1,2820 @@
+{
+  "version": "1.0",
+  "base_prefix": "/api",
+  "total_endpoints": 132,
+  "feature_counts": {
+    "root": 1,
+    "agents": 3,
+    "api-keys": 3,
+    "auth": 13,
+    "config": 3,
+    "diagnostics": 2,
+    "streaming": 1,
+    "hooks": 1,
+    "models": 6,
+    "pack/unpack": 8,
+    "auth/platform": 4,
+    "marketplace": 11,
+    "prompts": 3,
+    "providers": 3,
+    "skills": 6,
+    "threads": 35,
+    "tools": 2,
+    "users": 24,
+    "variables": 3
+  },
+  "endpoints": [
+    {
+      "method": "POST",
+      "path": "/api/",
+      "route_pattern": "/",
+      "handler": "index.post",
+      "feature": "root",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/agents",
+      "route_pattern": "/agents",
+      "handler": "agents.get",
+      "feature": "agents",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/agents"
+    },
+    {
+      "method": "GET",
+      "path": "/api/agents/:name",
+      "route_pattern": "/agents/:name",
+      "handler": "agents/%5Bname%5D.get",
+      "feature": "agents",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/agents/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/agents/:name/tenvs",
+      "route_pattern": "/agents/:name/tenvs",
+      "handler": "agents/%5Bname%5D/tenvs.get",
+      "feature": "agents",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "thread_id"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/api-keys",
+      "route_pattern": "/api-keys",
+      "handler": "api-keys/index.get",
+      "feature": "api-keys",
+      "auth": "conditional (hosted only)",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "500"
+      ],
+      "summary": "GET /api/api-keys"
+    },
+    {
+      "method": "POST",
+      "path": "/api/api-keys",
+      "route_pattern": "/api-keys",
+      "handler": "api-keys/index.post",
+      "feature": "api-keys",
+      "auth": "conditional (hosted only)",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "name"
+      ],
+      "notes": [],
+      "status_codes": [
+        "201",
+        "400",
+        "410",
+        "500"
+      ],
+      "summary": "POST /api/api-keys"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/api-keys/:id",
+      "route_pattern": "/api-keys/:id",
+      "handler": "api-keys/%5Bid%5D.delete",
+      "feature": "api-keys",
+      "auth": "conditional (hosted only)",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "410",
+        "500"
+      ],
+      "summary": "DELETE /api/api-keys/:id"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/bootstrap",
+      "route_pattern": "/auth/bootstrap",
+      "handler": "auth/bootstrap.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "204"
+      ],
+      "summary": "POST /api/auth/bootstrap"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/config",
+      "route_pattern": "/auth/config",
+      "handler": "auth/config.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/auth/config"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/device/:code",
+      "route_pattern": "/auth/device/:code",
+      "handler": "auth/device/%5Bcode%5D.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404"
+      ],
+      "summary": "GET /api/auth/device/:code"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/device/:code/approve",
+      "route_pattern": "/auth/device/:code/approve",
+      "handler": "auth/device/%5Bcode%5D/approve.get",
+      "feature": "auth",
+      "auth": "conditional (hosted only)",
+      "websocket": false,
+      "query_params": [
+        "handoff"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "302"
+      ],
+      "summary": "GET /api/auth/device/:code/approve"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/device/start",
+      "route_pattern": "/auth/device/start",
+      "handler": "auth/device/start.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "POST /api/auth/device/start"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/login",
+      "route_pattern": "/auth/login",
+      "handler": "auth/login.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "username",
+        "password"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "401",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/auth/login"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/logout",
+      "route_pattern": "/auth/logout",
+      "handler": "auth/logout.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "return_to"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "302"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/logout",
+      "route_pattern": "/auth/logout",
+      "handler": "auth/logout.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "POST /api/auth/logout"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/me",
+      "route_pattern": "/auth/me",
+      "handler": "auth/me.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "401",
+        "500"
+      ],
+      "summary": "GET /api/auth/me"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/platform-cleanup",
+      "route_pattern": "/auth/platform-cleanup",
+      "handler": "auth/platform-cleanup.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "kind",
+        "project_id",
+        "exp",
+        "key",
+        "id",
+        "params",
+        "limit",
+        "offset"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "401"
+      ],
+      "summary": "POST /api/auth/platform-cleanup"
+    },
+    {
+      "method": "POST",
+      "path": "/api/auth/platform-replica",
+      "route_pattern": "/auth/platform-replica",
+      "handler": "auth/platform-replica.post",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "kind",
+        "project_id",
+        "exp",
+        "users",
+        "platform_user_id",
+        "username",
+        "display_name",
+        "email",
+        "avatar_url",
+        "role",
+        "permissions",
+        "session_revoked_at"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "401"
+      ],
+      "summary": "POST /api/auth/platform-replica"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/sa/callback",
+      "route_pattern": "/auth/sa/callback",
+      "handler": "auth/sa/callback.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "handoff",
+        "token",
+        "return_to"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "302"
+      ],
+      "summary": "GET /api/auth/sa/callback"
+    },
+    {
+      "method": "GET",
+      "path": "/api/auth/sa/start",
+      "route_pattern": "/auth/sa/start",
+      "handler": "auth/sa/start.get",
+      "feature": "auth",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "return_to"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "302",
+        "404"
+      ],
+      "summary": "GET /api/auth/sa/start"
+    },
+    {
+      "method": "GET",
+      "path": "/api/config",
+      "route_pattern": "/config",
+      "handler": "config.get",
+      "feature": "config",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/diagnostics",
+      "route_pattern": "/diagnostics",
+      "handler": "diagnostics.get",
+      "feature": "diagnostics",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/diagnostics"
+    },
+    {
+      "method": "GET",
+      "path": "/api/envs/instance",
+      "route_pattern": "/envs/instance",
+      "handler": "envs/instance.get",
+      "feature": "config",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "500"
+      ],
+      "summary": "GET /api/envs/instance"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/envs/instance",
+      "route_pattern": "/envs/instance",
+      "handler": "envs/instance.patch",
+      "feature": "config",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "PATCH /api/envs/instance"
+    },
+    {
+      "method": "GET",
+      "path": "/api/events",
+      "route_pattern": "/events",
+      "handler": "events.get",
+      "feature": "streaming",
+      "auth": "required",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/events"
+    },
+    {
+      "method": "GET",
+      "path": "/api/hooks",
+      "route_pattern": "/hooks",
+      "handler": "hooks.get",
+      "feature": "hooks",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/hooks"
+    },
+    {
+      "method": "GET",
+      "path": "/api/models",
+      "route_pattern": "/models",
+      "handler": "models.get",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/models"
+    },
+    {
+      "method": "GET",
+      "path": "/api/models/:name",
+      "route_pattern": "/models/:name",
+      "handler": "models/%5Bname%5D.get",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/models/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/models/:name/curl-data",
+      "route_pattern": "/models/:name/curl-data",
+      "handler": "models/%5Bname%5D/curl-data.get",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/models/:name/curl-data"
+    },
+    {
+      "method": "POST",
+      "path": "/api/models/available",
+      "route_pattern": "/models/available",
+      "handler": "models/available.post",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "search",
+        "page",
+        "perPage",
+        "models",
+        "hasNextPage",
+        "provider",
+        "filter"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "401",
+        "500"
+      ],
+      "summary": "POST /api/models/available"
+    },
+    {
+      "method": "POST",
+      "path": "/api/models/capabilities",
+      "route_pattern": "/models/capabilities",
+      "handler": "models/capabilities.post",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "provider",
+        "modelId"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "401",
+        "500"
+      ],
+      "summary": "POST /api/models/capabilities"
+    },
+    {
+      "method": "POST",
+      "path": "/api/models/endpoints",
+      "route_pattern": "/models/endpoints",
+      "handler": "models/endpoints.post",
+      "feature": "models",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "provider",
+        "modelSlug"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/models/endpoints"
+    },
+    {
+      "method": "GET",
+      "path": "/api/new-test",
+      "route_pattern": "/new-test",
+      "handler": "new-test.get",
+      "feature": "diagnostics",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/pack/:agentName",
+      "route_pattern": "/pack/:agentName",
+      "handler": "pack/%5BagentName%5D/index.post",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "POST /api/pack/:agentName"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pack/:agentName/analyze",
+      "route_pattern": "/pack/:agentName/analyze",
+      "handler": "pack/%5BagentName%5D/analyze.get",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/pack/:agentName/analyze"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pack/:agentName/metadata",
+      "route_pattern": "/pack/:agentName/metadata",
+      "handler": "pack/%5BagentName%5D/metadata.get",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/pack/:agentName/metadata"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pack/:agentName/packed-info",
+      "route_pattern": "/pack/:agentName/packed-info",
+      "handler": "pack/%5BagentName%5D/packed-info.get",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/pack/:agentName/packed-info"
+    },
+    {
+      "method": "POST",
+      "path": "/api/pack/:agentName/publish",
+      "route_pattern": "/pack/:agentName/publish",
+      "handler": "pack/%5BagentName%5D/publish.post",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "POST /api/pack/:agentName/publish"
+    },
+    {
+      "method": "GET",
+      "path": "/api/pack/npm-token-status",
+      "route_pattern": "/pack/npm-token-status",
+      "handler": "pack/npm-token-status.get",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/pack/npm-token-status"
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform-auth/bootstrap",
+      "route_pattern": "/platform-auth/bootstrap",
+      "handler": "platform-auth/bootstrap.post",
+      "feature": "auth/platform",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "204",
+        "410",
+        "502",
+        "503"
+      ],
+      "summary": "POST /api/platform-auth/bootstrap"
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform-auth/login",
+      "route_pattern": "/platform-auth/login",
+      "handler": "platform-auth/login.post",
+      "feature": "auth/platform",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ],
+      "summary": "POST /api/platform-auth/login"
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform-auth/logout",
+      "route_pattern": "/platform-auth/logout",
+      "handler": "platform-auth/logout.post",
+      "feature": "auth/platform",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "502"
+      ],
+      "summary": "POST /api/platform-auth/logout"
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform-auth/me",
+      "route_pattern": "/platform-auth/me",
+      "handler": "platform-auth/me.get",
+      "feature": "auth/platform",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ],
+      "summary": "GET /api/platform-auth/me"
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform-endpoint",
+      "route_pattern": "/platform-endpoint",
+      "handler": "platform-endpoint",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": []
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/platform-session/**",
+      "route_pattern": "/platform-session/**",
+      "handler": "platform-session/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform-session/**",
+      "route_pattern": "/platform-session/**",
+      "handler": "platform-session/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/platform-session/**",
+      "route_pattern": "/platform-session/**",
+      "handler": "platform-session/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform-session/**",
+      "route_pattern": "/platform-session/**",
+      "handler": "platform-session/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/api/platform-session/**",
+      "route_pattern": "/platform-session/**",
+      "handler": "platform-session/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/platform/**",
+      "route_pattern": "/platform/**",
+      "handler": "platform/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/platform/**",
+      "route_pattern": "/platform/**",
+      "handler": "platform/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/platform/**",
+      "route_pattern": "/platform/**",
+      "handler": "platform/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/platform/**",
+      "route_pattern": "/platform/**",
+      "handler": "platform/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "PUT",
+      "path": "/api/platform/**",
+      "route_pattern": "/platform/**",
+      "handler": "platform/%5B...path%5D",
+      "feature": "marketplace",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "502",
+        "503"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/prompts",
+      "route_pattern": "/prompts",
+      "handler": "prompts.get",
+      "feature": "prompts",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/prompts"
+    },
+    {
+      "method": "GET",
+      "path": "/api/prompts/:name",
+      "route_pattern": "/prompts/:name",
+      "handler": "prompts/%5Bname%5D.get",
+      "feature": "prompts",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/prompts/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/prompts/:name/tenvs",
+      "route_pattern": "/prompts/:name/tenvs",
+      "handler": "prompts/%5Bname%5D/tenvs.get",
+      "feature": "prompts",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "thread_id"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/providers",
+      "route_pattern": "/providers",
+      "handler": "providers.get",
+      "feature": "providers",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/providers"
+    },
+    {
+      "method": "GET",
+      "path": "/api/providers/:name/icon",
+      "route_pattern": "/providers/:name/icon",
+      "handler": "providers/%5Bname%5D/icon.get",
+      "feature": "providers",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "model"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "GET /api/providers/:name/icon"
+    },
+    {
+      "method": "GET",
+      "path": "/api/providers/:name/tools",
+      "route_pattern": "/providers/:name/tools",
+      "handler": "providers/%5Bname%5D/tools.get",
+      "feature": "providers",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "model"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/providers/:name/tools"
+    },
+    {
+      "method": "GET",
+      "path": "/api/skills",
+      "route_pattern": "/skills",
+      "handler": "skills/index.get",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "all"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "500"
+      ],
+      "summary": "GET /api/skills"
+    },
+    {
+      "method": "POST",
+      "path": "/api/skills",
+      "route_pattern": "/skills",
+      "handler": "skills/index.post",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "201",
+        "400"
+      ],
+      "summary": "POST /api/skills"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/skills/:name",
+      "route_pattern": "/skills/:name",
+      "handler": "skills/%5Bname%5D.delete",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "DELETE /api/skills/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/skills/:name",
+      "route_pattern": "/skills/:name",
+      "handler": "skills/%5Bname%5D.get",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/skills/:name"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/skills/:name",
+      "route_pattern": "/skills/:name",
+      "handler": "skills/%5Bname%5D.patch",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "PATCH /api/skills/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/skills/:name/files/**",
+      "route_pattern": "/skills/:name/files/**",
+      "handler": "skills/%5Bname%5D/files/%5B...path%5D.get",
+      "feature": "skills",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/skills/:name/files/*"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads",
+      "route_pattern": "/threads",
+      "handler": "threads/index",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "limit",
+        "offset",
+        "agent_id",
+        "include_children",
+        "search",
+        "startDate",
+        "endDate"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "405",
+        "500"
+      ],
+      "summary": "GET /api/threads"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads",
+      "route_pattern": "/threads",
+      "handler": "threads/index.post",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "agent_id",
+        "initial_messages",
+        "data",
+        "tags",
+        "env",
+        "env_types",
+        "tenvs",
+        "properties"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/threads/:id",
+      "route_pattern": "/threads/:id",
+      "handler": "threads/%5Bid%5D.delete",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "DELETE /api/threads/:id"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id",
+      "route_pattern": "/threads/:id",
+      "handler": "threads/%5Bid%5D",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/threads/:id",
+      "route_pattern": "/threads/:id",
+      "handler": "threads/%5Bid%5D.patch",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "tags",
+        "agent_id",
+        "env",
+        "env_types",
+        "env_patch",
+        "env_type_patch",
+        "env_delete",
+        "tenvs"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "405",
+        "500"
+      ],
+      "summary": "PATCH /api/threads/:id"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/bridge",
+      "route_pattern": "/threads/:id/bridge",
+      "handler": "threads/%5Bid%5D/bridge",
+      "feature": "threads",
+      "auth": "conditional (hosted only)",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/bridge"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/continue",
+      "route_pattern": "/threads/:id/continue",
+      "handler": "threads/%5Bid%5D/continue.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/continue"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/cost",
+      "route_pattern": "/threads/:id/cost",
+      "handler": "threads/%5Bid%5D/cost.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/cost"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/diagnostics",
+      "route_pattern": "/threads/:id/diagnostics",
+      "handler": "threads/%5Bid%5D/diagnostics.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/diagnostics"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/effects",
+      "route_pattern": "/threads/:id/effects",
+      "handler": "threads/%5Bid%5D/effects.get",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "limit",
+        "offset"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/effects"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/effects/:effectId/cancel",
+      "route_pattern": "/threads/:id/effects/:effectId/cancel",
+      "handler": "threads/%5Bid%5D/effects/%5BeffectId%5D/cancel.post",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "409",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/effects/:effectId/cancel"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/effects/:effectId/run",
+      "route_pattern": "/threads/:id/effects/:effectId/run",
+      "handler": "threads/%5Bid%5D/effects/%5BeffectId%5D/run.post",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/effects/:effectId/run"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/fs",
+      "route_pattern": "/threads/:id/fs",
+      "handler": "threads/%5Bid%5D/fs/index",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "grep",
+        "path",
+        "limit",
+        "find",
+        "type"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/threads/:id/fs/**",
+      "route_pattern": "/threads/:id/fs/**",
+      "handler": "threads/%5Bid%5D/fs/%5B...path%5D",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "format"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "200",
+        "201",
+        "204",
+        "400",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/fs/**",
+      "route_pattern": "/threads/:id/fs/**",
+      "handler": "threads/%5Bid%5D/fs/%5B...path%5D",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "format"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "200",
+        "201",
+        "204",
+        "400",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/fs/**",
+      "route_pattern": "/threads/:id/fs/**",
+      "handler": "threads/%5Bid%5D/fs/%5B...path%5D",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "format"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "200",
+        "201",
+        "204",
+        "400",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/threads/:id/kv",
+      "route_pattern": "/threads/:id/kv",
+      "handler": "threads/%5Bid%5D/kv/index",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "key",
+        "search",
+        "limit",
+        "offset"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "204",
+        "400",
+        "403",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/kv",
+      "route_pattern": "/threads/:id/kv",
+      "handler": "threads/%5Bid%5D/kv/index",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "key",
+        "search",
+        "limit",
+        "offset"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "204",
+        "400",
+        "403",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/kv",
+      "route_pattern": "/threads/:id/kv",
+      "handler": "threads/%5Bid%5D/kv/index",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "key",
+        "search",
+        "limit",
+        "offset"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "204",
+        "400",
+        "403",
+        "404",
+        "405",
+        "500"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/logs",
+      "route_pattern": "/threads/:id/logs",
+      "handler": "threads/%5Bid%5D/logs.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": true,
+      "query_params": [
+        "limit",
+        "offset",
+        "order",
+        "ids",
+        "messageIds",
+        "includeWorkblocks",
+        "includeDescendants"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/logs"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/logs/:logId",
+      "route_pattern": "/threads/:id/logs/:logId",
+      "handler": "threads/%5Bid%5D/logs/%5BlogId%5D.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/logs/:logId"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/logs/:logId/inspect/:provider",
+      "route_pattern": "/threads/:id/logs/:logId/inspect/:provider",
+      "handler": "threads/%5Bid%5D/logs/%5BlogId%5D/inspect/%5Bprovider%5D.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/logs/:logId/inspect/:provider"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/messages",
+      "route_pattern": "/threads/:id/messages",
+      "handler": "threads/%5Bid%5D/messages.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "limit",
+        "offset",
+        "order",
+        "includeSilent",
+        "depth",
+        "ids",
+        "includeWorkblocks"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/messages"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/messages",
+      "route_pattern": "/threads/:id/messages",
+      "handler": "threads/%5Bid%5D/messages.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "name",
+        "mimeType",
+        "data",
+        "width",
+        "height",
+        "thumbnail",
+        "content",
+        "role",
+        "attachments",
+        "silent",
+        "content = \"\""
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/messages"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/threads/:id/messages/:messageId",
+      "route_pattern": "/threads/:id/messages/:messageId",
+      "handler": "threads/%5Bid%5D/messages/%5BmessageId%5D.delete",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "DELETE /api/threads/:id/messages/:messageId"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/threads/:id/messages/:messageId",
+      "route_pattern": "/threads/:id/messages/:messageId",
+      "handler": "threads/%5Bid%5D/messages/%5BmessageId%5D.patch",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "PATCH /api/threads/:id/messages/:messageId"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/pending-tool-calls",
+      "route_pattern": "/threads/:id/pending-tool-calls",
+      "handler": "threads/%5Bid%5D/pending-tool-calls.get",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/pending-tool-calls"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/revive",
+      "route_pattern": "/threads/:id/revive",
+      "handler": "threads/%5Bid%5D/revive.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500",
+        "501"
+      ],
+      "summary": "POST /api/threads/:id/revive"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/rpc",
+      "route_pattern": "/threads/:id/rpc",
+      "handler": "threads/%5Bid%5D/rpc.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "method",
+        "args = []"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "500"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/stop",
+      "route_pattern": "/threads/:id/stop",
+      "handler": "threads/%5Bid%5D/stop.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/stop"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/stream",
+      "route_pattern": "/threads/:id/stream",
+      "handler": "threads/%5Bid%5D/stream",
+      "feature": "threads",
+      "auth": "conditional (hosted only)",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/subagents",
+      "route_pattern": "/threads/:id/subagents",
+      "handler": "threads/%5Bid%5D/subagents.get",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/subagents"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/tool-result",
+      "route_pattern": "/threads/:id/tool-result",
+      "handler": "threads/%5Bid%5D/tool-result.post",
+      "feature": "threads",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "200",
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/tool-result"
+    },
+    {
+      "method": "GET",
+      "path": "/api/threads/:id/variables/:requestId",
+      "route_pattern": "/threads/:id/variables/:requestId",
+      "handler": "threads/%5Bid%5D/variables/%5BrequestId%5D.get",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/threads/:id/variables/:requestId"
+    },
+    {
+      "method": "POST",
+      "path": "/api/threads/:id/variables/:requestId",
+      "route_pattern": "/threads/:id/variables/:requestId",
+      "handler": "threads/%5Bid%5D/variables/%5BrequestId%5D.post",
+      "feature": "threads",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "403",
+        "404",
+        "500"
+      ],
+      "summary": "POST /api/threads/:id/variables/:requestId"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tools",
+      "route_pattern": "/tools",
+      "handler": "tools.get",
+      "feature": "tools",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "type",
+        "schema"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "summary": "GET /api/tools"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tools/:name",
+      "route_pattern": "/tools/:name",
+      "handler": "tools/%5Bname%5D.get",
+      "feature": "tools",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ],
+      "summary": "GET /api/tools/:name"
+    },
+    {
+      "method": "POST",
+      "path": "/api/unpack/:packageId",
+      "route_pattern": "/unpack/:packageId",
+      "handler": "unpack/%5BpackageId%5D/index.post",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "POST /api/unpack/:packageId"
+    },
+    {
+      "method": "GET",
+      "path": "/api/unpack/:packageId/analyze",
+      "route_pattern": "/unpack/:packageId/analyze",
+      "handler": "unpack/%5BpackageId%5D/analyze.get",
+      "feature": "pack/unpack",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/unpack/:packageId/analyze"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users",
+      "route_pattern": "/users",
+      "handler": "users/index.get",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "410",
+        "500"
+      ],
+      "summary": "GET /api/users"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users",
+      "route_pattern": "/users",
+      "handler": "users/index.post",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "username",
+        "password",
+        "role = 'user'"
+      ],
+      "notes": [],
+      "status_codes": [
+        "201",
+        "400",
+        "410",
+        "500"
+      ],
+      "summary": "POST /api/users"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/users/:id",
+      "route_pattern": "/users/:id",
+      "handler": "users/%5Bid%5D.delete",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "410",
+        "500"
+      ],
+      "summary": "DELETE /api/users/:id"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/users/:id",
+      "route_pattern": "/users/:id",
+      "handler": "users/%5Bid%5D.put",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [
+        "username",
+        "password",
+        "role",
+        "permissions"
+      ],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "409",
+        "410",
+        "500"
+      ],
+      "summary": "PUT /api/users/:id"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/users/:id/**",
+      "route_pattern": "/users/:id/**",
+      "handler": "users/%5Bid%5D/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403"
+      ],
+      "summary": "ALL /api/users/:id/** \u2014 administrative dispatch into another user's packaged"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/:id/**",
+      "route_pattern": "/users/:id/**",
+      "handler": "users/%5Bid%5D/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403"
+      ],
+      "summary": "ALL /api/users/:id/** \u2014 administrative dispatch into another user's packaged"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/:id/**",
+      "route_pattern": "/users/:id/**",
+      "handler": "users/%5Bid%5D/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403"
+      ],
+      "summary": "ALL /api/users/:id/** \u2014 administrative dispatch into another user's packaged"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users/:id/**",
+      "route_pattern": "/users/:id/**",
+      "handler": "users/%5Bid%5D/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403"
+      ],
+      "summary": "ALL /api/users/:id/** \u2014 administrative dispatch into another user's packaged"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/users/:id/**",
+      "route_pattern": "/users/:id/**",
+      "handler": "users/%5Bid%5D/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403"
+      ],
+      "summary": "ALL /api/users/:id/** \u2014 administrative dispatch into another user's packaged"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/:id/env",
+      "route_pattern": "/users/:id/env",
+      "handler": "users/%5Bid%5D/env.get",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404",
+        "500"
+      ],
+      "summary": "GET /api/users/:id/env"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/:id/env",
+      "route_pattern": "/users/:id/env",
+      "handler": "users/%5Bid%5D/env.patch",
+      "feature": "users",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "404"
+      ],
+      "summary": "PATCH /api/users/:id/env"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/:id/stream",
+      "route_pattern": "/users/:id/stream",
+      "handler": "users/%5Bid%5D/stream",
+      "feature": "users",
+      "auth": "required",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "403",
+        "426"
+      ],
+      "summary": "GET /api/users/:id/stream \u2014 administrative access to another user's event"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/users/me/**",
+      "route_pattern": "/users/me/**",
+      "handler": "users/me/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "ALL /api/users/me/** \u2014 user endpoint dispatch (spec: Users \u00a73)."
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/me/**",
+      "route_pattern": "/users/me/**",
+      "handler": "users/me/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "ALL /api/users/me/** \u2014 user endpoint dispatch (spec: Users \u00a73)."
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/me/**",
+      "route_pattern": "/users/me/**",
+      "handler": "users/me/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "ALL /api/users/me/** \u2014 user endpoint dispatch (spec: Users \u00a73)."
+    },
+    {
+      "method": "POST",
+      "path": "/api/users/me/**",
+      "route_pattern": "/users/me/**",
+      "handler": "users/me/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "ALL /api/users/me/** \u2014 user endpoint dispatch (spec: Users \u00a73)."
+    },
+    {
+      "method": "PUT",
+      "path": "/api/users/me/**",
+      "route_pattern": "/users/me/**",
+      "handler": "users/me/%5B...rest%5D",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "ALL /api/users/me/** \u2014 user endpoint dispatch (spec: Users \u00a73)."
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/me/env",
+      "route_pattern": "/users/me/env",
+      "handler": "users/me/env.get",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/users/me/env"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/me/env",
+      "route_pattern": "/users/me/env",
+      "handler": "users/me/env.patch",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400"
+      ],
+      "summary": "PATCH /api/users/me/env"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/me/hub",
+      "route_pattern": "/users/me/hub",
+      "handler": "users/me/hub",
+      "feature": "users",
+      "auth": "required",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/users/me/hub"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/users/me/kv",
+      "route_pattern": "/users/me/kv",
+      "handler": "users/me/kv/index.delete",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "key"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "DELETE /api/users/me/kv?key=..."
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/me/kv",
+      "route_pattern": "/users/me/kv",
+      "handler": "users/me/kv/index.get",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [
+        "key",
+        "limit",
+        "offset",
+        "prefix"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "GET /api/users/me/kv"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users/me/kv",
+      "route_pattern": "/users/me/kv",
+      "handler": "users/me/kv/index.post",
+      "feature": "users",
+      "auth": "required",
+      "websocket": false,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "500"
+      ],
+      "summary": "POST /api/users/me/kv"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users/me/stream",
+      "route_pattern": "/users/me/stream",
+      "handler": "users/me/stream",
+      "feature": "users",
+      "auth": "required",
+      "websocket": true,
+      "query_params": [],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "400",
+        "426"
+      ],
+      "summary": "GET /api/users/me/stream"
+    },
+    {
+      "method": "GET",
+      "path": "/api/variables/agents/:name",
+      "route_pattern": "/variables/agents/:name",
+      "handler": "variables/agents/%5Bname%5D.get",
+      "feature": "variables",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "thread_id"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ],
+      "summary": "GET /api/variables/agents/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/variables/prompts/:name",
+      "route_pattern": "/variables/prompts/:name",
+      "handler": "variables/prompts/%5Bname%5D.get",
+      "feature": "variables",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "thread_id"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ],
+      "summary": "GET /api/variables/prompts/:name"
+    },
+    {
+      "method": "GET",
+      "path": "/api/variables/tools/:name",
+      "route_pattern": "/variables/tools/:name",
+      "handler": "variables/tools/%5Bname%5D.get",
+      "feature": "variables",
+      "auth": "none",
+      "websocket": false,
+      "query_params": [
+        "thread_id"
+      ],
+      "request_body_fields": [],
+      "notes": [],
+      "status_codes": [
+        "404"
+      ],
+      "summary": "GET /api/variables/tools/:name"
+    }
+  ],
+  "key_shapes": {
+    "POST /api/threads": {
+      "auth": "required",
+      "request": {
+        "agent_id": "string (required)",
+        "initial_messages": "Message[] (optional)",
+        "data": "Record<string, any> (optional)",
+        "tags": "string[] (optional)",
+        "env": "Record<string, string> (optional)",
+        "env_types": "Record<string, 'text'|'secret'> (optional)",
+        "tenvs": "Record (deprecated alias for env)",
+        "properties": "Record<string, unknown> (optional)"
+      },
+      "response_200": {
+        "threadId": "string",
+        "agent_id": "string",
+        "message": "string"
+      }
+    },
+    "GET /api/threads": {
+      "auth": "required",
+      "query": {
+        "limit": "number default 50",
+        "offset": "number default 0",
+        "agent_id": "string?",
+        "include_children": "1?",
+        "search": "string?",
+        "startDate": "unix?",
+        "endDate": "unix?"
+      },
+      "response_200": {
+        "threads": "ThreadSummary[]",
+        "total": "number",
+        "hasMore": "boolean"
+      }
+    },
+    "GET /api/threads/:id": {
+      "auth": "required",
+      "response_200": {
+        "thread": "object",
+        "agent": "object",
+        "stats": "object"
+      }
+    },
+    "POST /api/threads/:id/messages": {
+      "auth": "none (public in local dev)",
+      "request": {
+        "content": "string",
+        "role": "user|assistant|system",
+        "attachments": "AttachmentPayload[]?",
+        "silent": "boolean?"
+      },
+      "response_202": "queued"
+    },
+    "GET /api/agents": {
+      "auth": "none",
+      "response_200": {
+        "agents": "AgentSummary[]"
+      }
+    },
+    "GET /api/models": {
+      "auth": "none",
+      "response_200": {
+        "models": "ModelSummary[]"
+      }
+    },
+    "POST /api/models/available": {
+      "request": {
+        "provider": "string",
+        "filter|search": "string?",
+        "page": "number?",
+        "perPage": "number?"
+      },
+      "response_200": {
+        "models": "array",
+        "hasNextPage": "boolean"
+      }
+    },
+    "POST /api/pack/:agentName": {
+      "request": {
+        "itemSelections": "ItemSelection[]?",
+        "version": "string?",
+        "packageId": "string?",
+        "packageName": "string?",
+        "license": "string?",
+        "licenseOwner": "string?",
+        "readme": "string?"
+      },
+      "response_200": {
+        "success": "boolean",
+        "packageId": "string",
+        "outputPath": "string",
+        "meta": "PackedMeta",
+        "warnings": "string[]",
+        "createdFiles": "string[]"
+      }
+    },
+    "POST /api/auth/login": {
+      "request": {
+        "username": "string?",
+        "password": "string"
+      },
+      "response_200": {
+        "token": "string",
+        "user": {
+          "id": "string",
+          "username": "string",
+          "role": "string"
+        }
+      }
+    },
+    "GET /api/threads/:id/messages": {
+      "query": {
+        "limit": "number default 100",
+        "offset": "number default 0",
+        "order": "asc|desc default desc",
+        "includeSilent": "true|false",
+        "depth": "number default 0",
+        "ids": "comma-separated ids",
+        "includeWorkblocks": "true|false"
+      },
+      "response_200": {
+        "messages": "Message[]",
+        "total": "number",
+        "hasMore": "boolean"
+      }
+    },
+    "GET /api/pack/:agentName/analyze": {
+      "response_200": "PackingAnalysis { agent, constituents, shared, warnings, errors }"
+    }
+  },
+  "streaming": {
+    "websocket_endpoints": [
+      "GET /api/events",
+      "GET /api/threads/:id/bridge",
+      "GET /api/threads/:id/logs",
+      "GET /api/threads/:id/stream",
+      "GET /api/users/:id/stream",
+      "GET /api/users/me/hub",
+      "GET /api/users/me/stream"
+    ],
+    "events": {
+      "path": "GET /api/events",
+      "protocol": "WebSocket",
+      "events": [
+        "thread_created",
+        "thread_updated",
+        "thread_deleted"
+      ]
+    },
+    "thread_stream": {
+      "path": "GET /api/threads/:id/stream",
+      "protocol": "WebSocket",
+      "purpose": "real-time message updates"
+    },
+    "thread_bridge": {
+      "path": "GET /api/threads/:id/bridge",
+      "protocol": "WebSocket",
+      "purpose": "client-tool bridge for CLI filesystem/shell"
+    },
+    "user_stream": {
+      "path": "GET /api/users/me/stream",
+      "protocol": "WebSocket",
+      "purpose": "user-scoped events from UserState.emit()"
+    },
+    "user_id_stream": {
+      "path": "GET /api/users/:id/stream",
+      "protocol": "WebSocket"
+    }
+  },
+  "ui_analysis": {
+    "raw_paths_found": 33,
+    "normalized_paths_found": 40,
+    "ui_only_suspect": [],
+    "backend_not_in_ui_heuristic": [
+      "GET /api/api-keys",
+      "POST /api/api-keys",
+      "DELETE /api/api-keys/:id",
+      "POST /api/auth/bootstrap",
+      "GET /api/auth/config",
+      "GET /api/auth/device/:code",
+      "GET /api/auth/device/:code/approve",
+      "POST /api/auth/device/start",
+      "POST /api/auth/login",
+      "GET /api/auth/logout",
+      "POST /api/auth/logout",
+      "GET /api/auth/me",
+      "POST /api/auth/platform-cleanup",
+      "POST /api/auth/platform-replica",
+      "GET /api/auth/sa/callback",
+      "GET /api/config",
+      "GET /api/envs/instance",
+      "PATCH /api/envs/instance",
+      "GET /api/events",
+      "POST /api/models/available",
+      "POST /api/models/capabilities",
+      "POST /api/models/endpoints",
+      "GET /api/pack/npm-token-status",
+      "GET /api/skills",
+      "POST /api/skills",
+      "DELETE /api/skills/:name",
+      "GET /api/skills/:name",
+      "PATCH /api/skills/:name",
+      "GET /api/skills/:name/files/**",
+      "GET /api/users",
+      "POST /api/users",
+      "DELETE /api/users/:id",
+      "PUT /api/users/:id",
+      "DELETE /api/users/:id/**",
+      "GET /api/users/:id/**",
+      "PATCH /api/users/:id/**",
+      "POST /api/users/:id/**",
+      "PUT /api/users/:id/**",
+      "GET /api/users/:id/env",
+      "PATCH /api/users/:id/env"
+    ],
+    "ui_only_confirmed": [
+      "/api/auth/oauth/github",
+      "/api/auth/oauth/google",
+      "/api/models/:id/fallbacks"
+    ]
+  },
+  "ui_paths": [
+    "/api/agents",
+    "/api/agents${t.agentType",
+    "/api/agents/:id",
+    "/api/auth/",
+    "/api/auth/bootstrap",
+    "/api/auth/config",
+    "/api/auth/login",
+    "/api/auth/logout",
+    "/api/auth/me",
+    "/api/auth/oauth/github",
+    "/api/auth/oauth/google",
+    "/api/auth/sa/start",
+    "/api/config",
+    "/api/diagnostics",
+    "/api/events",
+    "/api/models",
+    "/api/models/:id/curl-data",
+    "/api/models/:id/fallbacks",
+    "/api/models/available",
+    "/api/models/capabilities",
+    "/api/models/endpoints",
+    "/api/pack/:id",
+    "/api/pack/:id/analyze",
+    "/api/pack/:id/metadata",
+    "/api/pack/:id/packed-info",
+    "/api/pack/:id/publish",
+    "/api/pack/npm-token-status",
+    "/api/prompts",
+    "/api/prompts/:id",
+    "/api/prompts:id",
+    "/api/providers",
+    "/api/providers/:id",
+    "/api/providers/:id/icon",
+    "/api/providers/:id/icon:id",
+    "/api/providers/:id/tools",
+    "/api/threads",
+    "/api/threads/:id",
+    "/api/threads/:id/continue",
+    "/api/threads/:id/cost",
+    "/api/threads/:id/diagnostics",
+    "/api/threads/:id/effects",
+    "/api/threads/:id/effects/:id/cancel",
+    "/api/threads/:id/effects/:id/run",
+    "/api/threads/:id/fs",
+    "/api/threads/:id/fs/:id",
+    "/api/threads/:id/fs/:id:id",
+    "/api/threads/:id/fs:id",
+    "/api/threads/:id/kv",
+    "/api/threads/:id/logs",
+    "/api/threads/:id/logs/:id",
+    "/api/threads/:id/logs/:id/inspect/:id",
+    "/api/threads/:id/messages/:id",
+    "/api/threads/:id/revive",
+    "/api/tools",
+    "/api/tools/:id",
+    "/api/unpack/:id",
+    "/api/unpack/:id/analyze",
+    "/api/v1/packages${c",
+    "/api/v1/packages/:id",
+    "/api/variables/agents/:id"
+  ],
+  "ui_paths_by_area": {
+    "agents": [
+      "/api/agents",
+      "/api/agents/:id"
+    ],
+    "agents${t.agentType": [
+      "/api/agents${t.agentType"
+    ],
+    "auth": [
+      "/api/auth/",
+      "/api/auth/bootstrap",
+      "/api/auth/config",
+      "/api/auth/login",
+      "/api/auth/logout",
+      "/api/auth/me",
+      "/api/auth/oauth/github",
+      "/api/auth/oauth/google",
+      "/api/auth/sa/start"
+    ],
+    "config": [
+      "/api/config"
+    ],
+    "diagnostics": [
+      "/api/diagnostics"
+    ],
+    "events": [
+      "/api/events"
+    ],
+    "models": [
+      "/api/models",
+      "/api/models/:id/curl-data",
+      "/api/models/:id/fallbacks",
+      "/api/models/available",
+      "/api/models/capabilities",
+      "/api/models/endpoints"
+    ],
+    "pack": [
+      "/api/pack/:id",
+      "/api/pack/:id/analyze",
+      "/api/pack/:id/metadata",
+      "/api/pack/:id/packed-info",
+      "/api/pack/:id/publish",
+      "/api/pack/npm-token-status"
+    ],
+    "prompts": [
+      "/api/prompts",
+      "/api/prompts/:id"
+    ],
+    "prompts:id": [
+      "/api/prompts:id"
+    ],
+    "providers": [
+      "/api/providers",
+      "/api/providers/:id",
+      "/api/providers/:id/icon",
+      "/api/providers/:id/icon:id",
+      "/api/providers/:id/tools"
+    ],
+    "threads": [
+      "/api/threads",
+      "/api/threads/:id",
+      "/api/threads/:id/continue",
+      "/api/threads/:id/cost",
+      "/api/threads/:id/diagnostics",
+      "/api/threads/:id/effects",
+      "/api/threads/:id/effects/:id/cancel",
+      "/api/threads/:id/effects/:id/run",
+      "/api/threads/:id/fs",
+      "/api/threads/:id/fs/:id",
+      "/api/threads/:id/fs/:id:id",
+      "/api/threads/:id/fs:id",
+      "/api/threads/:id/kv",
+      "/api/threads/:id/logs",
+      "/api/threads/:id/logs/:id",
+      "/api/threads/:id/logs/:id/inspect/:id",
+      "/api/threads/:id/messages/:id",
+      "/api/threads/:id/revive"
+    ],
+    "tools": [
+      "/api/tools",
+      "/api/tools/:id"
+    ],
+    "unpack": [
+      "/api/unpack/:id",
+      "/api/unpack/:id/analyze"
+    ],
+    "v1": [
+      "/api/v1/packages${c",
+      "/api/v1/packages/:id"
+    ],
+    "variables": [
+      "/api/variables/agents/:id"
+    ]
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "swarmy_ui",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "swarmy_ui - AI agent admin SPA. Vue 3 + Vite + Tailwind v4, forms on shadcn-vue (Reka UI) + VeeValidate + Zod.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@guolao/vue-monaco-editor": "^1.6.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "@vee-validate/zod": "^4.13.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "lucide-vue-next": "^0.400.0",
+    "monaco-editor": "^0.50.0",
+    "reka-ui": "^1.0.0",
+    "shiki": "^1.0.0",
+    "tailwind-merge": "^2.3.0",
+    "vee-validate": "^4.13.0",
+    "vue": "^3.5.0",
+    "vue-router": "^4.4.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.5.0",
+    "vite": "^5.4.0",
+    "vue-tsc": "^2.1.0"
+  }
+}
