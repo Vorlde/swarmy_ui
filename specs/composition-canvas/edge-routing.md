@@ -1,6 +1,8 @@
 # Composition Canvas - Edge Routing
 
-Project: **swarmy_ui**. Custom orthogonal-style router producing SVG path `d` strings. No third-party routing library. The router is pure functions over layout + measured metrics: fully unit-testable, theme-independent.
+Project: **swarmy_ui**. Custom orthogonal router producing SVG path `d` strings. No third-party routing library. The router is pure functions over layout + measured metrics: fully unit-testable, theme-independent.
+
+Edges in the reference render as **orthogonal polylines with rounded elbows** - axis-aligned runs joined by short arcs. They are not free-form cubic beziers; any spec text (including ADR-005's summary) that calls them "bezier edges" is describing the corner rounding, not the trunk geometry.
 
 ## 1. Entry point
 
@@ -82,11 +84,11 @@ Emit `Q` quadratic segments at each interior corner with radius `min(CORNER_R, a
 
 ## 4. Model edges (`routeModelEdge`)
 
-Model edges connect a prompt/side node's **model anchor** to a model node. They are visually distinct (dashed, accent color) and route mostly horizontally.
+Model edges connect a prompt node's **model anchor** to a model node. They are distinguished only by the dash array (same neutral stroke as structural edges) and route mostly horizontally.
 
 ### Anchors
 
-- Source anchor: `(source.x + source.width, source.y + metrics[source.id].modelAnchorY)` for right-exit (side B models), or `(source.x, ...)` for left-exit (side A models). If `modelAnchorY` is not measured yet, use `source.height * 0.4`.
+- Source anchor: `(source.x + source.width, source.y + metrics[source.id].modelAnchorY)` for right-exit (side B models), or `(source.x, ...)` for left-exit (side A models). `modelAnchorY` is the vertical center of the `data-model-anchor` element - the inline model chip in the PROMPT card header, not a separate row. If it is not measured yet, use `source.height * 0.4`.
 - Target anchor, chosen by relative position:
   - Model below/right of source: model top-center.
   - Model outboard (roughly same Y): the model's left or right edge midpoint facing the source.
@@ -114,6 +116,9 @@ Per edge:
 <path
   :d="routed.d"
   fill="none"
+  :data-edge-id="routed.id"
+  :data-edge-kind="routed.kind"
+  :data-edge-tool-kind="routed.toolKind"
   :stroke="colorFor(routed)"
   :stroke-width="widthFor(routed)"
   :stroke-dasharray="routed.kind === 'model' ? theme.edge.modelDashArray : undefined"
@@ -129,13 +134,18 @@ Visual values (all from `CanvasTheme.edge`, the swappable layer):
 | connected to selected node | 2 |
 | connected to hovered node | 2.25 |
 
-Color resolution order:
+Color resolution keeps the five-way lookup below, **but the shipped theme maps every entry to the same
+neutral grey (measured `#dcdcdc`, i.e. `neutral-300` territory)**. Every edge in the reference capture -
+structural and model, side A and side B - is that one neutral. Side identity is carried by the node
+card's border colour (sky `#00a6f4` / amber `#fe9a00`), not by the edge. Do not ship coloured edges.
 
-1. `kind === 'model'` -> `theme.edge.colors.model` (purple accent)
-2. `toolKind === 'subagent'` or `handoff` -> `theme.edge.colors.subagent` (emerald)
-3. `sideId === 'a'` -> `theme.edge.colors.sideA` (sky)
-4. `sideId === 'b'` -> `theme.edge.colors.sideB` (amber)
-5. otherwise -> `theme.edge.colors.default` (neutral)
+1. `kind === 'model'` -> `theme.edge.colors.model`
+2. `toolKind === 'subagent'` or `handoff` -> `theme.edge.colors.subagent`
+3. `sideId === 'a'` -> `theme.edge.colors.sideA`
+4. `sideId === 'b'` -> `theme.edge.colors.sideB`
+5. otherwise -> `theme.edge.colors.default`
+
+Only `model` edges are visually distinct, by the dash array.
 
 When a node is hovered, edges not touching it or its neighbors dim to `theme.node.hoverDimOpacity` (0.25) along with the nodes - handled by the parent via a CSS class on the svg.
 

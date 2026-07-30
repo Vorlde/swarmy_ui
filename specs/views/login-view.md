@@ -11,39 +11,49 @@ Authenticate a user against the local swarmy_ui backend and establish a session.
 
 ## Layout
 
-The public layout owns the screen (no sidebar, no `EditSurfaceHost`). `App.vue` renders a bare centered stage for `meta.public` routes. The view itself is a single centered card on the app background.
+The public layout owns the screen (no sidebar, no `EditSurfaceHost`). `App.vue` renders a bare centered stage for `meta.public` routes. The stage holds a **logo lockup above** a single card - the brand mark is *not* inside the card, and the card has no title or tagline.
+
+Measured from `login-1512-light.png` / `login-1512-dark.png` (viewport 1512, CSS px):
+
+| Element | Measured |
+|---|---|
+| Stage background | `#f3f3f3`-reading page surface (light) / near-black (dark), same global grain as every other screen |
+| Logo lockup | icon mark + wordmark, centered, baseline ~`80px` above the card top |
+| Card | `440 x 260`, `bg #ffffff` (dark `~#171717`), `1px solid --color-border` (`#d4d4d4` / `#404040`), radius `8px`, centered both axes |
+| Card elevation | **`DropShadow`**: `offsetX` / `offsetY` `6`, `pattern: "diagonal"` - the diagonal hatch is clearly visible along the card's right and bottom edges in both themes. Not a CSS `box-shadow` |
+| Labels | `Username` / `Password`, bold `~13px`, `--color-text` |
+| Inputs | full card content width, `~38px` tall, `1px --color-border`, radius `~6px`, transparent/white fill, placeholders `Enter your username` / `Enter your password` in `--color-neutral-400` |
+| Submit | full-width `Sign in`, `~36px` tall, radius `~6px`, **black fill / white label in light, white fill / black label in dark**, label `15px/500` |
 
 ### ASCII wireframe
 
 ```
 +------------------------------------------------------------------+
-|  (app background: bg-background)                                 |
+|  (stage background)                                              |
 |                                                                  |
-|                +------------------------------------+            |
-|                |  [logo mark]                       |            |
-|                |  swarmy_ui                         |            |
-|                |  Sign in to your workspace         |            |
-|                |                                    |            |
-|                |  Username                          |            |
-|                |  +------------------------------+  |            |
-|                |  | admin                        |  |            |
-|                |  +------------------------------+  |            |
-|                |                                    |            |
-|                |  Password                          |            |
-|                |  +------------------------------+  |            |
-|                |  | ********                     |  |            |
-|                |  +------------------------------+  |            |
-|                |  [error text, when present]        |            |
-|                |                                    |            |
-|                |  +------------------------------+  |            |
-|                |  |         Sign in              |  |            |
-|                |  +------------------------------+  |            |
-|                +------------------------------------+            |
+|                     [mark]  swarmy_ui                            |
 |                                                                  |
+|                +------------------------------------+#           |
+|                |  Username                          |#           |
+|                |  +------------------------------+  |#           |
+|                |  | Enter your username          |  |#           |
+|                |  +------------------------------+  |#           |
+|                |                                    |#           |
+|                |  Password                          |#           |
+|                |  +------------------------------+  |#           |
+|                |  | Enter your password          |  |#           |
+|                |  +------------------------------+  |#           |
+|                |  [UiAlertBox / error text, when present]        |
+|                |  +------------------------------+  |#           |
+|                |  |         Sign in              |  |#           |
+|                |  +------------------------------+  |#           |
+|                +------------------------------------+#           |
+|                 ######################################           |
+|                  ( # = DropShadow diagonal hatch, 6/6 )          |
 +------------------------------------------------------------------+
 ```
 
-Card width ~360px, vertically and horizontally centered. No navigation chrome.
+Card `440x260`, vertically and horizontally centered. No navigation chrome, no "Sign in to your workspace" tagline, no logo inside the card.
 
 ## Components used
 
@@ -91,10 +101,11 @@ There is no empty state (no lists) and no auth-wall state (this view IS the auth
 
 The login card is pure skin: it composes only `Ui*` primitives and semantic token utilities.
 
-- **Background:** `bg-background` on the stage; the card uses `bg-background-soft` with `border-border` and the `--radius-*` scale. A theme can make the stage a gradient or image by editing the semantic background tokens (or a `.login-stage` hook class) without touching the view.
-- **Brand mark:** the logo/wordmark reads `--accent-*`. Rebranding the accent recolors the mark and the primary `Sign in` button in one edit.
-- **Card chrome:** shadow, radius, and padding come from the primitives' component tokens; a denser or flatter theme adjusts `--radius-*` and the shadow scale globally.
-- **Dark mode:** follows the `.dark` class strategy like every other view; no view-specific dark code.
+- **Background:** `bg-background` on the stage; the card uses `--color-background` with `--color-border` and the `--radius-*` scale. A theme can make the stage a gradient or image by editing the semantic background tokens (or a `.login-stage` hook class) without touching the view.
+- **Brand mark:** the logo/wordmark sits above the card and reads its own brand tokens. It is *not* accent-tinted in the capture, so rebranding the accent does not recolor it.
+- **Card chrome:** radius and padding come from the primitives' component tokens. **Elevation is not a shadow scale** - the card is wrapped in `DropShadow` (`offsetX`/`offsetY` `6`, `pattern: "diagonal"`, ink from `--dropshadow-color`), so a flatter theme sets `elevation="none"` rather than shrinking a blur radius.
+- **Submit button:** the inverted primary token pair (`--color-neutral-950` fill / white label in light, mirrored in dark), *not* `--accent-600`. Changing the accent ramp must not change the `Sign in` button.
+- **Dark mode:** follows the `.dark` class strategy like every other view; no view-specific dark code. Light -> dark inverts the card surface, the input borders, and the submit fill/label; the hatch shadow re-renders in the dark ink token.
 - **Full reskin:** a different login presentation (split screen, hero panel, SSO-only buttons) is a rewrite of `LoginView.vue`'s template only, keeping the `authStore.login` call and redirect logic intact.
 
 ## Notes

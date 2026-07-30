@@ -1,6 +1,6 @@
 # CompositionView
 
-Project: **swarmy_ui**. Top-level route component for the composition canvas feature. Owns data loading, selection state, and coordinates the three regions: AgentBrowserPanel (left), CompositionCanvas (center), InspectorPanel (right).
+Project: **swarmy_ui**. Owner of the composition data for the `/agents` cascade. It is not a three-column screen of its own: it supplies the **Structure** pane (cascade snap section 3), which is `StructureTree` + resizer + `CompositionCanvas` under one shared header. The Agents list is snap section 1 and the Inspector is the third column of snap section 2; neither is a child of this component.
 
 ## Purpose
 
@@ -46,7 +46,9 @@ None.
 
 ## Visual behavior
 
-Full-viewport three-column flex layout. Left browser panel fixed width (~260px), center canvas flex-1, right inspector slides in at 320px only when `selectedNodeId` is set. The route query `?agent=` is two-way synced with selection.
+The Structure snap section is a `rounded-xl border border-black/10 bg-white dark:border-white/10 dark:bg-neutral-900` card in the cascade flex track (`gap: 12px`). Inside it: one header row `[icon] Structure  <agent name>`, then a horizontal flex of `.structure-tree` (resizable, default 320px, `border-r border-neutral-200`), `.structure-tree-resizer`, and the canvas viewport (`relative flex-1 overflow-hidden bg-neutral-100/50 dark:bg-neutral-950/50`).
+
+Entering the section is a **scroll** animation, not a transform: selecting an agent appends the section and `.composition-scroll-container` (`overflow-x:auto`, `scroll-snap-type: x mandatory`, `scroll-behavior: smooth`) smooth-scrolls to it. The route query `?agent=` is two-way synced with selection.
 
 ## States
 
@@ -56,4 +58,4 @@ Full-viewport three-column flex layout. Left browser panel fixed width (~260px),
 
 ## Theming
 
-The view only sets layout chrome (panel widths, dividers, background). All values come from theme tokens: `--color-bg-base` for the page background, `--color-border` for dividers, spacing scale for gutters. Swapping the theme changes divider/background colors without touching this component's template logic.
+The view only sets layout chrome (pane widths, dividers, background). All values come from theme tokens: `--color-bg-base` for the page background, `--color-border` (`#d4d4d4` light / `#404040` dark) for dividers, spacing scale for gutters. It also `provide`s `canvasTheme` and the `nodeRegistry` so a reskin or a new card kind never reaches the canvas engine. Swapping the theme changes divider/background colors without touching this component's template logic.

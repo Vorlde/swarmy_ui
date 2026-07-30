@@ -1,6 +1,15 @@
 # InspectorPanel
 
-Project: **swarmy_ui**. Right-side contextual editor for the selected canvas node.
+Project: **swarmy_ui**. Contextual editor panel.
+
+> **Placement correction.** The inspector is not adjacent to the canvas. In the live app it is the third
+> column of cascade **snap section 2** (Threads + Messages + Inspector) and is driven by the selected
+> *thread*, with the tab strip `Logs` (default) / `Files` / `KV Store` / `Effects` /
+> `Agent Configuration` / `Thread Settings` - collapsing behind a `...` overflow button when the column
+> is narrower than the strip. The canonical spec for that surface is under `specs/views/`. No
+> canvas-node-driven inspector appears in any capture; the entity-edit tab set below is a design
+> intent, not observed behaviour. Selecting a canvas node must not be specced as opening this panel
+> until a capture shows it.
 
 ## Purpose
 
@@ -38,7 +47,7 @@ interface Props {
 
 ## Visual behavior
 
-Panel header: "Inspector" + close. Tab bar auto-selects by `node.type`. Forms are sectioned (general, sides, variables; body/schema/variables for prompts). Dirty tracking: Save enables only when dirty; Cancel resets. Server validation errors render inline under fields.
+Panel header: "Inspector" + close. Tab bar auto-selects by `node.kind`. Forms are sectioned (general, sides, variables; body/schema/variables for prompts). Dirty tracking: Save enables only when dirty; Cancel resets. Server validation errors render inline under fields.
 
 ## States
 

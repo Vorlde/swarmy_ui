@@ -46,7 +46,21 @@ withDefaults(defineProps<{
 
 ## Theming / Swappability
 
-Structure classes come from the shared form-field class tokens (`outer`, `inner`, `input`, `prefixIcon`, `suffixIcon`), all resolving to `--color-border`, `--color-background-soft`, `--radius-lg`, and `--color-text`. Icon color follows `--color-neutral-400` with `--color-neutral-600` hover (dark pairs included). Focus ring uses `--accent-500`. Debounce timing and icons are configurable per instance, so a theme can restyle or re-icon every search field without touching the component logic.
+Structure classes come from the shared form-field class tokens (`outer`, `inner`, `input`, `prefixIcon`, `suffixIcon`), all resolving to `--color-border`, `--color-background`, `--radius-lg`, and `--color-text`. Icon color follows `--color-neutral-400` with `--color-neutral-600` hover (dark pairs included). Focus ring uses `--accent-500`. Debounce timing and icons are configurable per instance, so a theme can restyle or re-icon every search field without touching the component logic.
+
+Measured on the page-level list views (`prompts-1512-light.png`, `models-1512-light.png`, `providers-1512-light.png`, `tools-1512-light.png`), viewport 1512, CSS px:
+
+| Property | Measured | Token |
+|---|---|---|
+| Size | `448 x 38` (width is the caller's layout) | height = the `md` field-height token |
+| Border | `1px solid #d4d4d4` (dark `#404040`) | `--color-border` |
+| Radius | `8px` | `--radius-lg` |
+| Surface | `#ffffff` | `--color-background` (**not** `-soft`) |
+| Placeholder + leading magnifier | `#a1a1a1` | `--color-neutral-400` |
+
+Adjacent selects in the same filter row (`All Models`, `All Providers`) are `220x38` with a `12px` gap and share this chrome. `/marketplace` is the exception: its sort control is a **native `<select>`**, so it renders the platform chevron rather than the shared suffix glyph.
+
+Note: this is a *different* size preset from the agents-composition search box recorded in `exact-tokens.md` §3.4 (`34px` tall, `padding 6px 12px`, `font-size 14px`). Both resolve through the same tokens; only the preset differs.
 
 ## API Endpoints
 

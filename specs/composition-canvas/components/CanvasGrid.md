@@ -24,7 +24,21 @@ None.
 
 ## Visual behavior
 
-Full-size `<svg>` with `position: absolute; inset: 0`. A `<pattern>` of size `theme.grid.dotSpacing` draws one `<circle>` of radius `theme.grid.dotRadius` filled with `theme.grid.dotColor`, plus a `<rect>` filling the viewport with the pattern.
+Full-size inline `<svg>` with `position: absolute; inset: 0`, rendered **outside** the transform layer so
+the dots stay 24px apart on screen at every zoom level (verified identical at 11% and 51%):
+
+```html
+<pattern id="canvas-dot-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+  <circle cx="12" cy="12" r="1" class="fill-neutral-400/20 dark:fill-neutral-500/20" />
+</pattern>
+```
+
+plus a `<rect>` filling the viewport with `fill="url(#canvas-dot-grid)"`. The id must be exactly
+`canvas-dot-grid`.
+
+The **group sub-grid** is a different pattern and *is* inside the transform layer (so it scales with the
+content): `width=20 height=20`, `<circle r="0.75" class="fill-neutral-400/15">`. It is rendered by the
+group container, not by CanvasGrid.
 
 ## States
 

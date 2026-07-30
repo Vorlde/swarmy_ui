@@ -45,7 +45,15 @@ withDefaults(defineProps<{
 
 ## Theming / Swappability
 
-Variants resolve entirely through tokens: primary uses `--accent-600` background with `--accent-700` hover and `--accent-500` focus ring; secondary uses `--color-background-mute` with `--color-text`; ghost is transparent with `--color-background-mute` hover; danger uses the red color scale. Radius is `--radius-lg`, font weight `--font-weight-medium`, and the sm/md/lg scale maps to `--btn-height-sm/md/lg` and `--btn-padding-x-*` tokens, so a compact or roomy theme is a token change, not a component change. Focus ring color and offset are `--focus-ring-color` / `--focus-ring-width`.
+Variants resolve entirely through tokens.
+
+**`primary` is the inverted neutral, not the accent.** Measured on the page primary actions (`+ Create Prompt`, `+ Add Model`, `Add User`, `Create API Key`, `Save Variables`, `+ Add Property`, `Sign in`): fill `#000000` with a white label in light theme, and the mirror (white fill, black label) in dark. Bind it to a `--btn-primary-bg` / `--btn-primary-fg` token pair that defaults to `--color-neutral-950` / `--color-background` and inverts under `.dark`. Changing the accent ramp must **not** recolor the primary button - accent drives selection surfaces, underline tabs, and focus rings instead.
+
+`secondary` uses `--color-background-mute` with `--color-text`; `ghost` is transparent with `--color-background-mute` hover; `danger` uses the red semantic scale. Focus ring color and offset are `--focus-ring-color` / `--focus-ring-width` (accent-derived).
+
+Measured geometry for the `md` page-primary preset (viewport 1512, CSS px): height `36px`, radius `8px` (`--radius-lg`), horizontal padding `~20px`, icon/label gap `~10px`, label `14px` at `--font-weight-medium`. `Sign in` on `/login` is the same preset with `fullWidth`. The sm/md/lg scale maps to `--btn-height-sm/md/lg` and `--btn-padding-x-*`, so a compact or roomy theme is a token change, not a component change.
+
+Buttons carry **no** `box-shadow` in any state; in this app the only CSS shadow is `shadow-sm` on the theme-toggle knob, and panel/overlay depth comes from `DropShadow`.
 
 ## API Endpoints
 

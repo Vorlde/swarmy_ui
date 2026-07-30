@@ -29,8 +29,10 @@ withDefaults(defineProps<{
 
 ## Behavior
 
-- Built on `Modal` (unless `inline`), with `hasChanges` guarding so closing a dirty form asks for confirmation.
+- Built on `Modal` (unless `inline`), with `hasChanges` guarding so closing a dirty form asks for confirmation. It inherits `Modal`'s near-opaque white scrim and `DropShadow` hatch elevation - never a `box-shadow`.
 - Header shows an eyebrow label ("ADD MODEL" / "EDIT MODEL" / "MODEL") plus the model name when editing.
+- **Selected-model summary row** (as captured in the Edit Prompt modal's `Basics > Model` field): a bordered card at `--radius-lg` laying out, left to right - provider glyph, model name in bold, an outlined provider badge (`OPENROUTER`, uppercase `10px`), the model id on the next line in `--font-mono`, a muted price line `in $0.09-$0.2/M  ·  out $0.18-$0.5/M`, then right-aligned capability chips followed by an `X` (clear) and a chevron (reopen picker).
+- **Capability chips** are small uppercase outlined pills (`VIS`, `TOOL`, `STR`, `JSON`): supported = emerald outline + emerald label; unsupported = neutral outline + `--color-neutral-400` label. They are read-only in this summary row; the checkbox fields below are the editable source.
 - Form fields (shadcn-vue + VeeValidate, Zod schema validation): provider shadcn-vue `Combobox` (searchable, required), model ID `Input`, `max_context_tokens` and `max_output_tokens` `NumberField` inputs with step 1000, generation parameters (temperature, top_p, etc.), and capability `Checkbox` fields (streaming, tools, vision, JSON mode). Form state is managed with VeeValidate `useForm`.
 - Opening in edit mode hydrates all fields from `editModel`; switching `editModel` while open re-hydrates.
 - On open it fetches the provider/capability option lists; options cache for the session.
@@ -46,7 +48,9 @@ withDefaults(defineProps<{
 
 ## Theming / Swappability
 
-Inherits `Modal` theming (surface `--color-background-soft`, radius `--radius-xl`, `--color-border` dividers). The eyebrow label uses `--color-neutral-400` with letter-spacing token `--tracking-eyebrow`. Field chrome comes from the shared form-field token set, and the footer action row uses standard `UiButton` variants, so a theme swap restyles the whole dialog. Width is the `max-w-*` class prop on `Modal` and can be restyled per deployment.
+Inherits `Modal` theming (surface `--color-background`, radius `--radius-lg`, `--color-border` dividers, near-opaque white scrim, and `DropShadow` elevation with `offsetX`/`offsetY` `6` and `pattern: "diagonal"` - **not** `box-shadow`).
+
+The eyebrow label uses `--color-neutral-400` with letter-spacing token `--tracking-eyebrow`. Capability chips map to two semantic pairs only - emerald (supported) and neutral (unsupported) - so a palette swap recolors them without touching markup; they are not accent-tinted. Model ids and price lines use `--font-mono` and the muted text token. Field chrome comes from the shared form-field token set; the footer save uses the **inverted** primary (black on white light, white on black dark), not `--accent-600`. Width is the `max-w-*` class prop on `Modal` and can be restyled per deployment.
 
 ## API Endpoints
 

@@ -1,6 +1,6 @@
 # AgentNode
 
-Project: **swarmy_ui**. Root node card for the agent being composed.
+Project: **swarmy_ui**. Root node card for the agent being composed. Registered in the node-type registry under `kind: 'agent'`.
 
 ## Purpose
 
@@ -35,18 +35,33 @@ None (data comes fully resolved from the layout generator).
 
 ## Visual behavior
 
-Card: icon (or fallback glyph) + machine name in semibold, subtitle line `TYPE - N sides`, a row `A: <sideALabel>  B: <sideBLabel>`, and a VariablesList of required variables. Selected state draws a ring in `theme.node.selectedRingColor`. Hover raises the shadow.
+Flat white card, 1px `#171717` border, rounded corners, **no shadow**. Two bands:
+
+**Header band**, split by a vertical hairline:
+- Left: eyebrow `[icon] AGENT` (`text-[10px]` uppercase tracking-wider muted) followed by a
+  `rounded-full` type pill reading the agent type in caps (`AI + HUMAN`). Below it the agent avatar,
+  the display name in semibold, and the machine name beneath in muted mono.
+- Right: a `(x) VARIABLES` column (`data-variables-section`) listing declared variables, or the muted
+  word `None`.
+
+**Sides band**, one column per side separated by a vertical hairline. Each column has a coloured
+eyebrow (`SUPPORT` sky `#00a6f4`, `HUMAN` amber `#fe9a00`), the prompt name in mono (human sides read
+`No prompt`), then a label/value list: `Stop on response`, `Stop tool`, `Max steps`,
+`End conversation tool`. Values are right-aligned; truthy values are tinted with the side accent,
+`Off` / `-` stay muted.
+
+Selected surface is `#efe3ff` light / `#302043` dark; hover `#f8f2ff` / `#1c1525`.
 
 ## States
 
 - **Loading**: not applicable (data is inline); when `refreshing` an inline spinner replaces the icon.
-- **Empty**: single-side agents (`ai_human`) omit the B side label; no variables hides the variables row.
+- **Empty**: no variables shows `None`; a human side shows `No prompt` and no config rows.
 - **Error**: none.
 
 ## Measurement anchors
 
-None (no model anchor, no tool columns).
+`data-variables-section` on the variables column. No model anchor, no tool columns.
 
 ## Theming
 
-All chrome from `theme.node`: `borderRadius`, `borderColor`, `background`, `shadow`, `headerTextColor`, `mutedTextColor`. A square-corners/flat theme or a compact-dense theme only changes tokens; the DOM structure and emitted events are unchanged.
+All chrome from `theme.node`: `borderRadius`, `borderColor` (`#171717` for the root card), `background`, `elevation` (`'none'` - canvas cards never use `box-shadow`), `headerTextColor`, `mutedTextColor`; side eyebrow colours from `theme.node.sideAccent`. A square-corners/flat theme or a compact-dense theme only changes tokens; the DOM structure and emitted events are unchanged.

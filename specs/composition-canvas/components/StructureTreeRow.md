@@ -12,7 +12,13 @@ Renders one tree entry: expand chevron (if children), type icon, label, and type
 interface Props {
   nodeId: string;
   label: string;
-  nodeType: NodeType | 'prompt' | 'group';
+  /** Canvas node kinds plus tree-only structural rows (Variables, Side Config, Prompt Config,
+   *  Input schema, Tools, Functions, Sub-prompts, Handoffs, Sub-agents). */
+  nodeType: NodeKind | 'group' | 'section';
+  /** Right-aligned muted value or count, e.g. "None", 6, "deepseek/dee...". */
+  trailing?: string | number;
+  /** Renders a trailing edit-icon button (present on prompt and sub-prompt rows). */
+  editable?: boolean;
   depth: number;
   children?: StructureTreeRowModel[];
   selected?: boolean;
@@ -39,7 +45,10 @@ None.
 
 ## Visual behavior
 
-Row padding-left = `depth * indent`. Selected row gets accent-tinted background and left indicator bar. Hover shows a faint background. Chevron rotates 90 degrees when expanded.
+Row padding-left = `depth * indent`, body `text-[12px]`. Selected row gets the accent surface
+`#efe3ff` light / `#302043` dark; hover is `#f8f2ff` / `#1c1525`. Chevron rotates 90 degrees when
+expanded. Leaf `> name` rows (individual functions) render their label in mono. The trailing value or
+count sits right-aligned in muted text.
 
 ## States
 

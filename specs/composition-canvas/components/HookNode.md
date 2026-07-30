@@ -2,9 +2,15 @@
 
 Project: **swarmy_ui**. Compact card for a lifecycle hook attached to an agent.
 
+> **Not present in the visual reference.** No hook card appears in any capture, and `hook` is not one of
+> the six rendered node kinds (`agent`, `prompt`, `human`, `function`, `subagent`, `model`). This spec is
+> kept as an unverified node-type registry candidate: do **not** add a `hook` entry to `nodeRegistry` or
+> to `NodeKind` until a capture confirms one. Hooks are currently surfaced only in the structure tree
+> and the inspector.
+
 ## Purpose
 
-Displays the hook event name with a bolt icon. Hooks sit in a row directly beneath the agent root.
+Displays the hook event name with a bolt icon. Hooks would sit in a row directly beneath the agent root.
 
 ## Props
 

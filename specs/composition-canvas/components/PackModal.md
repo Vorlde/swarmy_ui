@@ -48,4 +48,4 @@ Two sections: metadata form (package name, version) and dependency analysis (Dep
 
 ## Theming
 
-Modal chrome from shared modal tokens (`--color-surface`, overlay color, `--radius-lg`, shadow). Form controls and the tree use their own component tokens; nothing in PackModal hardcodes color or spacing.
+Modal chrome from shared modal tokens (`--color-surface`, overlay color, `--radius-lg`). Depth is the app-wide sibling-`<canvas>` diagonal-hatch shadow (6px right / 6px bottom, follows the corner radius), never a CSS `box-shadow`. Form controls and the tree use their own component tokens; nothing in PackModal hardcodes color or spacing.

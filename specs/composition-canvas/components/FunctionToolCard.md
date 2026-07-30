@@ -38,12 +38,22 @@ None directly (ToolNode loads `ToolDetail` and passes it in).
 
 ## Visual behavior
 
-Header: `[fx]` icon + name; subtitle kind label (`function tool` / `provider tool` / `mcp tool`). Stat line `in: N - out: M` derived from schema property counts. Expand chevron reveals input and output schemas rendered as DataTreeView. Description truncated to two lines with a tooltip.
+Flat white card, 1px `#d4d4d4` border, rounded, no shadow. Two bands separated by a full-width hairline:
+
+1. *Header* - eyebrow `[TS badge] FUNCTION` (`text-[10px]` uppercase tracking-wider muted). Below it a
+   **two-column** row: the tool name in bold mono on the left, the description as wrapped muted text on
+   the right. Not a name-over-subtitle stack, and there is no `in: N - out: M` arity line.
+2. *Args* - eyebrow `[icon] ARGS`, then one entry per input-schema property: a leading dot, the arg name
+   in mono, a red `*` when required, and the type in a small neutral chip (`string`). The property
+   description renders beneath in muted text.
+
+The reference card is fully expanded with no chevron; keep `expandable` as an option but default the
+args band to visible.
 
 ## States
 
 - **Loading**: handled by ToolNode wrapper (shimmer).
-- **Empty**: no schemas shows `in: 0 - out: 0` and disables the expand chevron; no description omits the line.
+- **Empty**: no input schema omits the ARGS band; no description leaves the right column empty.
 - **Error**: schema parse failure shows an inline "schema unavailable" note.
 
 ## Theming

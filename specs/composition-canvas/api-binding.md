@@ -9,7 +9,7 @@ Project: **swarmy_ui**. All endpoints are relative to the swarmy_ui backend (`/a
 | Catalog | `GET /api/agents` | View mount; after any agent create/pack/unpack | AgentBrowserPanel, CompositionView |
 | Catalog | `GET /api/models` | View mount; after model save | layout generator, ModelNode |
 | Catalog | `GET /api/tools` | View mount; after tool save | layout generator, ToolNode |
-| Catalog | `GET /api/hooks` | View mount | layout generator, HookNode |
+| Catalog | `GET /api/hooks` | View mount | structure tree / inspector only - hooks produce **no** canvas node |
 | Agent detail | `GET /api/agents/{name}` | On agent select (`?agent=` query param) or default first agent | CompositionView -> layout generator |
 | Prompt detail | `GET /api/prompts/{name}` | Per side prompt referenced by the selected agent (side A/B), and per prompt-tool | SidePromptNode, PromptCard, InspectorPanel |
 | Tool detail | `GET /api/tools/{toolName}` | Lazy, when a ToolNode first renders or is expanded | ToolNode, FunctionToolCard |
@@ -18,7 +18,13 @@ Project: **swarmy_ui**. All endpoints are relative to the swarmy_ui backend (`/a
 
 Sequence on mount: catalogs in parallel -> pick agent -> agent detail + its prompts in parallel -> compute layout -> render -> measure -> fitToView.
 
+Sub-agent references additionally require recursive agent + prompt detail fetches, since each sub-agent
+renders a full SUB-AGENT card plus its own inner prompt/function nodes inside a group.
+
 ## 2. Pack / Unpack / Publish
+
+These are launched from the kebab (`...`) menu on an Agents-list row (`Edit / Pack / Delete`), not from a
+canvas toolbar - the Structure pane has no toolbar.
 
 | Endpoint | Method | When | Consumer |
 |---|---|---|---|

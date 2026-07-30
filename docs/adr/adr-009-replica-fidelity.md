@@ -54,6 +54,7 @@ Consequences an implementer must handle, because they differ from a `scale()` ca
 - `zoom` is not a compositor-only property. Zoom steps are discrete (`+`/`-` move in ~4-point increments, the 4th control is fit-to-screen) rather than continuous, which is what the live app does. Do not add a smooth pinch-zoom ramp.
 - Panning stays on `translate3d` precisely so the common interaction remains compositor-only.
 - Default view is fit-to-content: **11%** for the reference agent.
+- **Open measurement.** `MANIFEST.md` says `+`/`-` step in "~4-point increments" but also that 12 `+` clicks walk 11% -> 51%, which is 3.33 points per click. The specs carry +-0.04 with the discrepancy noted; re-measure against a running build before locking it.
 
 ## Decision 4 - grids for lists, one real `<table>`
 
@@ -72,6 +73,23 @@ The cascade grid template is `grid-cols-[36px_1fr_72px_80px_1fr_32px]` with `gap
 Why grids: a row is one grid item spanning all tracks, which is what makes the full-row hover tint, the 66px two-line `Sides` cell, and the pinned 36px avatar / 32px kebab columns work without `<table>` layout fighting them. A `<table>` also cannot express the collapsed 48px `.threads-col` state.
 
 **Rule:** do not introduce a `<table>` element. If a surface seems to need one, it needs a column set.
+
+## Open items
+
+These are capture observations that no single spec owns. They are logged here so
+they are settled deliberately rather than guessed at during Phase 1.
+
+1. **Page-surface grain.** `exact-tokens.md` computes `.app-container` as
+   `bg-neutral-50/80` over white, which resolves to about `#fbfbfb`. Every light
+   PNG measures the page at roughly `#f3f3f3` with visible per-pixel noise, i.e.
+   a global texture overlay darkening surfaces by 4-5%. Nothing in the computed
+   dump accounts for it. Identify it against the running app during Phase 1 and
+   record it as a shell token; do not approximate it by darkening `neutral-50`.
+2. **Edge elbow radius.** `edge-routing.md` carries `CORNER_R = 6`; the 51% crop
+   measures roughly 15 canvas px. Measurement is noisy at that zoom - re-check
+   live rather than changing the constant on the strength of the crop.
+3. **Log table `th`.** The one exact-tokens-vs-PNG conflict (Decision 1).
+   Re-measure once `LogsTable` exists.
 
 ## Enforcement
 

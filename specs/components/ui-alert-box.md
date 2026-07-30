@@ -40,7 +40,19 @@ withDefaults(defineProps<{
 
 ## Theming / Swappability
 
-Each variant maps to a semantic token triple: surface `--alert-{variant}-bg`, border `--alert-{variant}-border`, text `--alert-{variant}-text`, with paired dark-mode values (`--color-*-900/30` surfaces in dark). These default to the blue/green/amber/red scales but can be remapped to any brand palette without touching the component. Structure tokens: radius `--radius-lg`, padding `--spacing` 3x4, border width 1px, icon size `--alert-icon-size`. The icon set is swappable through the `icon` slot or the global icon registry.
+Each variant maps to a semantic token triple: surface `--alert-{variant}-bg`, border `--alert-{variant}-border`, text `--alert-{variant}-text`, with paired dark-mode values. These can be remapped to any brand palette without touching the component.
+
+Defaults, measured from the capture (viewport 1512, CSS px):
+
+| Variant | Surface | Border | Icon / text | Seen in |
+|---|---|---|---|---|
+| `info` | `#fafafa` (`--color-neutral-50`) - **neutral, not blue** | `1px #d4d4d4` (`--color-border`) | circled-`i` in `#a1a1a1` (`--color-neutral-400`); title line in `--color-text`, second line muted | `tools-1512-light.png` ("To create or modify tools, edit the `agents/tools/` directory of your codebase." / "Changes will be automatically detected.") |
+| `error` | `#fef2f2` (red-50) | `1px` red-200 family | circled-`X` in the red-500 family; message in the red-600/700 family | `settings-my-variables-1512-light.png` ("Super admin sessions do not have per-user env storage. Use instance envs or sign in as a user account.") |
+| `success` / `warning` | emerald-50 / amber-50 pairs | matching `-200` | matching `-500` icon, `-700` text | not exercised in the capture |
+
+Structure tokens as measured: radius `~12px` (`--radius-xl`), border width `1px`, padding `~16px 20px`, alert stretches the full content width, icon size `--alert-icon-size` (`~20px`) in a fixed leading column with a `~16px` gap. The body supports a bold first line plus a muted second line, and inline mono chips (`UiCodeBlock` inline mode) for paths.
+
+The alert carries **no** `box-shadow`. The icon set is swappable through the `icon` slot or the global icon registry.
 
 ## API Endpoints
 

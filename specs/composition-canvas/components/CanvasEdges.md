@@ -1,6 +1,6 @@
 # CanvasEdges
 
-Project: **swarmy_ui**. SVG layer that renders all edges as cubic bezier paths.
+Project: **swarmy_ui**. SVG layer that renders all edges as orthogonal polylines with rounded elbows (axis-aligned runs joined by short arcs) - not free-form cubic beziers.
 
 ## Purpose
 
@@ -34,9 +34,10 @@ None.
 ## Visual behavior
 
 - Single `<svg>` positioned absolute at 0,0 with `overflow: visible`; paths live in canvas space.
+- Each `<path>` carries `data-edge-id`, `data-edge-kind`, and `data-edge-tool-kind` when set.
 - `structural` edges: solid stroke, source bottom-center to target top-center (or per-kind tool column top via `nodeMetrics[from].toolColumns[kind]`).
-- `model` edges: dashed (`theme.edge.modelDashArray`), from `nodeMetrics[id].modelAnchorY` to the model node top or side anchor.
-- Stroke color resolution order: kind `model` -> `theme.edge.colors.model`; toolKind `subagent` -> `colors.subagent`; else `colors.sideA`/`colors.sideB` by `sideId`; fallback `colors.default`.
+- `model` edges: dashed (`theme.edge.modelDashArray`), from `nodeMetrics[id].modelAnchorY` (the inline model chip in the PROMPT card header) to the model node top or side anchor.
+- Stroke color resolution order: kind `model` -> `theme.edge.colors.model`; toolKind `subagent` -> `colors.subagent`; else `colors.sideA`/`colors.sideB` by `sideId`; fallback `colors.default`. **The shipped theme maps all five to the same neutral (~`#dcdcdc`)** - every edge in the reference is neutral grey; only the dash array distinguishes model edges. Side identity lives on the node card border, not the edge.
 - Stroke width: base `theme.edge.strokeWidth`; `highlightedWidth` when the edge touches the selected node; `hoveredWidth` when it touches the hovered node.
 - Edges adjacent to the hovered node stay opaque; others fade with the global hover dim.
 

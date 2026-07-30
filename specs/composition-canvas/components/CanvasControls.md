@@ -4,27 +4,28 @@ Project: **swarmy_ui**. Floating zoom control cluster.
 
 ## Purpose
 
-Overlay toolbar (default bottom-right, configurable corner) with zoom out, scale readout, zoom in, fit-to-view, and an auto-fit-lock indicator.
+Overlay control cluster pinned to the **bottom-left** of the canvas viewport with four controls in this
+order: zoom out, scale readout, zoom in, fit-to-screen.
 
 ## Props
 
 ```ts
 interface Props {
-  scalePercent: number;   // current zoom * 100, rounded
-  autoFitLocked?: boolean; // true after the user manually pans/zooms
+  scalePercent: number;   // current zoom * 100, rounded; reads "11%" at the default fit
   minScale?: number;       // disables zoom-out at floor
   maxScale?: number;       // disables zoom-in at ceiling
 }
 ```
 
+There is **no auto-fit-lock indicator** in the reference UI - the cluster is exactly four controls.
+
 ## Emitted events
 
 | Event | Payload | When |
 |---|---|---|
-| `zoom-in` | - | + button (parent applies step zoom toward viewport center) |
-| `zoom-out` | - | - button |
-| `fit-view` | - | fit button (also clears auto-fit lock) |
-| `reset-lock` | - | lock indicator clicked |
+| `zoom-in` | - | `+` button (parent steps scale by ~+0.04 toward viewport center) |
+| `zoom-out` | - | `-` button (~-0.04) |
+| `fit-view` | - | fit-to-screen button (also clears auto-fit lock) |
 
 ## Slots
 
@@ -36,7 +37,11 @@ None.
 
 ## Visual behavior
 
-Horizontal pill: `[-] [100%] [+] [fit]`. The percent readout is `tabular-nums`, min-width 3rem. The lock indicator lights when `autoFitLocked` is true. Buttons disable at scale bounds. Clicking the percent readout also emits `fit-view`.
+Horizontal white pill: `absolute bottom-4 left-4 z-10 rounded-lg`. Contents:
+`[-] [ 11% ] [+]` then a short vertical hairline divider, then the fit-to-screen button
+(corner-brackets icon). Readout classes: `min-w-[3rem] text-center text-[11px] font-medium
+tabular-nums text-neutral-500`. Buttons get a light rounded-square hover fill. Buttons disable at scale
+bounds. Clicking the percent readout also emits `fit-view`.
 
 ## States
 
@@ -45,4 +50,4 @@ Horizontal pill: `[-] [100%] [+] [fit]`. The percent readout is `tabular-nums`, 
 
 ## Theming
 
-Pill chrome (background, border, blur, shadow, radius) uses shared surface tokens (`--color-surface`, `--color-border`, `--radius-lg`, `--shadow-sm`). Icon set and pill shape are theme-swappable; the emit contract stays identical, so a vertical toolbar variant or icon-only compact variant is a drop-in replacement.
+Pill chrome (background, border, radius) uses shared surface tokens (`--color-surface`, `--color-border`, `--radius-lg`). **No `box-shadow`** - if the pill needs depth it uses the app-wide sibling-`<canvas>` diagonal-hatch shadow (6px right / 6px bottom), never a CSS shadow. Icon set and pill shape are theme-swappable; the emit contract stays identical, so a vertical toolbar variant or icon-only compact variant is a drop-in replacement.

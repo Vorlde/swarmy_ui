@@ -1,6 +1,13 @@
 # AgentBrowserPanel
 
-Project: **swarmy_ui**. Left sidebar listing all agents with search.
+Project: **swarmy_ui**. Agent list that drives canvas selection.
+
+> **Placement correction.** This is not a left sidebar next to the canvas. In the live app the agent
+> list is cascade **snap section 1**, a full-width CSS **grid**
+> (`grid-cols-[36px_1fr_72px_80px_1fr_32px]`, `gap-x-4`) - not a `<table>` and not a narrow panel -
+> with a header bar, search box, `All` segmented filter, and a `New Agent` button. Per-row overflow
+> actions live in a kebab (`...`) menu with `Edit / Pack / Delete`. The canonical spec for that surface
+> is under `specs/views/`; this file covers only the selection contract the canvas depends on.
 
 ## Purpose
 

@@ -37,7 +37,11 @@ None.
 
 ## Theming / Swappability
 
-All values are tokens: the width presets map to the breakpoint scale (`--container-*` tokens, default `7xl` = 80rem), page padding maps to `--page-padding` (default 8 spacing units), and the surface is `--color-background`. Switching density or content width globally is a one-token change; a marketing-style wide theme and a compact admin theme can coexist by overriding `--page-padding` and the container scale per theme.
+All values are tokens: the width presets map to the breakpoint scale (`--container-*` tokens, default `7xl` = 80rem), page padding maps to `--page-padding`, and the surface is the page background (`bg-neutral-50/80` over white in light, `dark:bg-black` in dark) - the wrapper does not paint its own opaque `--color-background`.
+
+Measured (viewport 1512, CSS px) across `prompts`, `models`, `providers`, `tools`, `settings-users`, `settings-api-keys`, `settings-my-variables`, `settings-instance-variables`: `main` begins at x `240` (its `1px --color-border` left rule) and the content column runs x `272.5` -> `1462`. That is a **`32px` page gutter** on both sides (`--page-padding` = `8` spacing units = `32px`), giving a `1189px` content width. At 1512 the content is narrower than the `7xl` clamp, so the `maxWidth` preset is not exercised in the capture - only the gutter is an observed fact.
+
+Switching density or content width globally is a one-token change; a marketing-style wide theme and a compact admin theme can coexist by overriding `--page-padding` and the container scale per theme.
 
 ## API Endpoints
 

@@ -86,7 +86,21 @@ registry (ADR-008 seam 3). A new node kind is a plug, not an edit to the node
 layer. This is the mechanism that the "Swappability" section above was asserting
 without one.
 
-**3. Canvas chrome, measured.** Viewport `relative flex-1 overflow-hidden
+**3. Edges are orthogonal polylines, not beziers, and they are all one colour.**
+The "cubic bezier with per-kind anchors" in the Consequences above is wrong.
+Sampled from `structure-canvas-zoom50-light.png`: every edge is an orthogonal
+polyline with rounded elbows, and every sampled edge pixel is the same neutral
+(~`#dcdcdc`). Only *dashing* distinguishes a model edge. The side-A / side-B
+accents (sky `#00a6f4`, amber `#fe9a00`) are real, but they appear on **card
+borders**, never on edges. Paths stamp `data-edge-id`, `data-edge-kind` and
+`data-edge-tool-kind`.
+
+**4. The dot grid is screen-space.** Measured identical at 11% and at 51%, so
+the grid pattern is not inside the zoomed layer. The 20x20 group sub-grid *is*
+in-layer and does scale; they are two different patterns and must not be
+unified.
+
+**5. Canvas chrome, measured.** Viewport `relative flex-1 overflow-hidden
 bg-neutral-100/50 dark:bg-neutral-950/50`, inner `absolute inset-0 cursor-grab`.
 Dot grid is an inline SVG `<pattern id="canvas-dot-grid" width=24 height=24>`
 with `<circle cx=12 cy=12 r=1 class="fill-neutral-400/20">`; group sub-grids use
