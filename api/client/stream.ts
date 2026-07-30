@@ -1,6 +1,6 @@
 // WebSocket helpers for the 7 streaming endpoints
 /* eslint-disable */
-import { AgentBuilderApi } from './client';
+import { PlatformApi } from './client';
 
 export interface StreamOptions {
   onOpen?: () => void;
@@ -40,7 +40,7 @@ function openStream(
   return ws;
 }
 
-export function createStreamClient(api: AgentBuilderApi) {
+export function createStreamClient(api: PlatformApi) {
   return {
     events: (onMessage: (data: unknown) => void, options?: StreamOptions) =>
       openStream(api.baseUrl, api.token, '/api/events', onMessage, options),

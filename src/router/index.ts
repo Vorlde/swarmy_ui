@@ -1,42 +1,34 @@
-// Ported from rebuild/ Gen-1; to be reworked against replica specs.
-import { createRouter, createWebHistory } from "vue-router";
+// Ported from rebuild/ Gen-1, then reworked onto the plugin spine (ADR-008):
+// the 12 static `@/views/*.vue` imports are gone. Route records come from
+// `routes.ts` as data and resolve their component through the `views` registry,
+// which feature plugs fill in. Route names, paths and the guard are unchanged.
+import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 import { useAuthStore } from "@/stores/auth";
 import { setUnauthorizedHandler } from "@/lib/api";
-import LoginView from "@/views/LoginView.vue";
-import CompositionView from "@/views/CompositionView.vue";
-import ThreadsView from "@/views/ThreadsView.vue";
-import PromptsView from "@/views/PromptsView.vue";
-import PromptEditView from "@/views/PromptEditView.vue";
-import ModelsView from "@/views/ModelsView.vue";
-import ProvidersView from "@/views/ProvidersView.vue";
-import ToolsView from "@/views/ToolsView.vue";
-import MarketplaceView from "@/views/MarketplaceView.vue";
-import UsersView from "@/views/UsersView.vue";
-import ApiKeysView from "@/views/ApiKeysView.vue";
-import VariablesView from "@/views/VariablesView.vue";
+import { views } from "@/plugins";
+import { unregisteredView } from "@/plugins/unregistered-view";
+import { routeDefs, rootRedirect } from "./routes";
 
 const base = import.meta.env.VITE_BASE_PATH || "/";
 
+const records: RouteRecordRaw[] = [
+  { path: rootRedirect.path, redirect: rootRedirect.redirect },
+  ...routeDefs.map(
+    (def): RouteRecordRaw => ({
+      path: def.path,
+      name: def.name,
+      meta: def.meta,
+      component: () => {
+        const loader = views.get(def.view);
+        return loader ? loader() : Promise.resolve(unregisteredView(def.view));
+      },
+    }),
+  ),
+];
+
 const router = createRouter({
   history: createWebHistory(base),
-  routes: [
-    { path: "/", redirect: { name: "agents" } },
-    { path: "/login", name: "login", component: LoginView, meta: { public: true } },
-    { path: "/agents", name: "agents", component: CompositionView },
-    { path: "/threads", name: "threads", component: ThreadsView },
-    { path: "/threads/:id", name: "thread-detail", component: ThreadsView },
-    { path: "/prompts", name: "prompts", component: PromptsView },
-    { path: "/prompts/:id", name: "prompt-edit", component: PromptEditView },
-    { path: "/models", name: "models", component: ModelsView },
-    { path: "/providers", name: "providers", component: ProvidersView },
-    { path: "/tools", name: "tools", component: ToolsView },
-    { path: "/marketplace", name: "marketplace", component: MarketplaceView },
-    { path: "/marketplace/:name(.*)", name: "marketplace-package", component: MarketplaceView },
-    { path: "/settings/users", name: "users", component: UsersView },
-    { path: "/settings/my-variables", name: "my-variables", component: VariablesView },
-    { path: "/settings/instance-variables", name: "instance-variables", component: VariablesView },
-    { path: "/settings/api-keys", name: "api-keys", component: ApiKeysView },
-  ],
+  routes: records,
 });
 
 setUnauthorizedHandler(() => {

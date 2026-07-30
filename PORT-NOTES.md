@@ -1,91 +1,95 @@
 # PORT-NOTES
 
-State of the seeded code on `replica/spine` at the time the spine was laid
-down. Everything under `src/` marked with the header
+State of the seeded code on `replica/spine`. Everything under `src/` marked
+with the header
 
     Ported from rebuild/ Gen-1; to be reworked against replica specs.
 
 is **starting material**, not finished code. It was copied with minimal path
-adaptation and deliberately **not** refactored. This file records what is
-known-broken so the rework does not have to rediscover it.
+adaptation and deliberately **not** refactored. This file records what was
+known-broken, and what has since been fixed, so the rework does not have to
+rediscover any of it.
 
 ## Typecheck status
 
 `npm install` succeeds (153 packages, 6 audit advisories: 1 moderate, 5
 high - all transitive, none touched by app code yet).
 
-`npx vue-tsc --noEmit` currently **fails**. 147 diagnostics, in three
-groups:
+`npx vue-tsc --noEmit` is **GREEN** (0 diagnostics) as of the spine commit.
 
-| Count | Where | Code | Cause |
-| --- | --- | --- | --- |
-| 133 | `api/client/client.ts` | TS2341 / TS1117 | Pre-existing generator bugs (tracked on `main`) |
-| 13 | `src/router/index.ts` | TS2307 | Imports views that do not exist yet |
-| 1 | `src/stores/auth.ts` | TS2307 | Imports `@/lib/api` which does not exist yet |
-| - | `src/components/legacy-port/JsonViewer.vue` | TS1002 etc. | Pre-existing syntax error, see below (masks the rest of that file) |
+The four defect groups recorded in the first draft of this file are all
+resolved:
 
-None of these were introduced by the port. All are expected to disappear as
-the replica is built against the specs.
+| Was | Where | Resolution |
+| --- | --- | --- |
+| 132 x TS2341 | `api/client/client.ts` | Generator now emits `request` as public + `@internal`; client regenerated |
+| 1 x TS1117 | `api/client/client.ts` | Generator de-duplicates body field names; `createMessage` emits `content` once |
+| TS1002 | `src/components/legacy-port/JsonViewer.vue` | Literal newline in `items.join("\n")` fixed in both places |
+| 13 x TS2307 | `src/router/index.ts`, `src/stores/auth.ts` | `src/lib/api.ts` added; router moved onto the view registry |
 
-## 1. `api/client/client.ts` - generated client does not compile
+## 1. `api/client/client.ts` - FIXED
 
-This file is tracked on `main`; it arrived on this branch untouched. Two
-independent defects, both from the generator in `11-api-client/generate.py`:
+Two generator defects and one naming-rule violation, all fixed at the source
+in `11-api-client/generate.py` and then regenerated into this worktree:
 
-- **132 x TS2341.** `AgentBuilderApi.request()` is declared `private`
-  (line 285), but all 30-odd namespace classes (`AgentsNamespace`,
-  `UsersNamespace`, ...) call `this.api.request(...)` from outside the
-  class. The generator emits the accessor as private and the call sites as
-  external. Fix is one word - make `request` non-private (or `internal` via
-  a shared base class) - but it belongs in the generator, not in a hand
-  patch here, so it is left alone.
-- **1 x TS1117** at line 938: an object literal with a duplicated property
-  name.
+- **132 x TS2341.** `request()` was emitted `private` while all 30-odd
+  namespace classes call `this.api.request(...)` from outside the class. It
+  is now emitted `public` with a `/** @internal - used by namespace classes;
+  not part of the public surface. */` JSDoc. `onUnauthorized` stays private.
+- **1 x TS1117.** The contract lists both `content` and `content = ""` for
+  `POST /threads/:id/messages`; `sanitize_field` collapsed them to the same
+  name and the body literal got a duplicate key. `decompose_fields()` now
+  de-duplicates body field names order-preservingly, matching the dedupe that
+  was already applied to the request *type*.
+- **Naming rule.** The exported class is now `PlatformApi`, not the original
+  product name. `stream.ts`, `index.ts` and `README.md` follow.
 
-There is also a **naming-rule violation**: the exported class is called
-`AgentBuilderApi`, and `AGENTS.md` forbids referencing the original product
-name anywhere in this repo. When the client is regenerated it should be
-emitted as `SwarmyApi` (or similar). Flagged, not fixed, because renaming a
-tracked generated artifact is a separate change.
+The regenerated output was diffed against the previous worktree copy: the
+only differences are those three changes, so no unrelated generator drift
+was pulled in.
 
-## 2. `src/components/legacy-port/JsonViewer.vue` - syntax error in source
+## 2. `src/components/legacy-port/JsonViewer.vue` - FIXED
 
-Lines 42-43 and 54-55 contain
+Two occurrences of
 
 ```ts
 ${items.join("
 ")}
 ```
 
-i.e. a literal newline inside a plain double-quoted string. The intent was
-obviously `items.join("\n")`. This is a **pre-existing bug in the Gen-1
-source** (`rebuild/src/components/JsonViewer.vue`); the ported copy is
-byte-identical apart from the header comment. Verified by diff.
+i.e. a literal newline inside a plain double-quoted string, a pre-existing
+bug in the Gen-1 source. Both are now `items.join("\n")`. The file
+typechecks clean; nothing else in it was touched.
 
-Left unfixed on purpose - the port is faithful. Two characters fix it when
-this component is reworked.
+## 3. `src/router/index.ts` and `src/stores/auth.ts` - FIXED via the spine
 
-## 3. `src/router/index.ts` and `src/stores/auth.ts` - dangling imports
+The dangling imports were real seams, and they were closed with real code
+rather than stubs:
 
-Both import `@/lib/api`, the Gen-1 hand-written fetch wrapper, which was
-**not** seeded: the replica's API layer is the typed client under
-`api/client/` (alias `@api/*`). The router additionally imports twelve
-`@/views/*.vue` files that do not exist yet.
+- **`src/lib/api.ts`** now exists: it is the single networking seam. It
+  exports `platformApi()` (the generated `PlatformApi` bound to the current
+  session token) and `api()` (a thin `fetch` wrapper on the same base URL and
+  auth header, for the auth endpoints the generator does not model), plus the
+  `setUnauthorizedHandler` the router already expected. `src/stores/auth.ts`
+  is unchanged - it compiles against this module as written.
+- **The twelve `@/views/*.vue` imports are gone.** Route records moved to
+  `src/router/routes.ts` as data, each naming a *view id*; the router
+  resolves that id through the `views` registry in `src/plugins/registry.ts`
+  (ADR-008). An unresolved id renders `unregisteredView(id)`, a one-line
+  diagnostic component, so the route table can be complete and typechecked
+  before any view exists. This is the seam, not a stub per view: when a
+  feature plug registers `login`, `/login` starts working with no core edit.
 
-These are the intended seams. When views land and the API layer is wired,
-the imports resolve. Do not paper over them with stubs.
-
-Router content that is worth keeping: 16 route records (one root redirect +
-15 routes) and a `beforeEach` guard plus a 401 handler wired through
-`setUnauthorizedHandler`. Route names and paths were transcribed from the
-live app and should be treated as reference.
+The 16 route records (one root redirect + 15 routes), their names and paths,
+and the `beforeEach` guard are unchanged from the transcription of the live
+app and remain reference material.
 
 ## 4. Deliberate deviations from the Gen-1 source
 
 Only one, and it is a naming-rule compliance fix, not logic:
 
 - `src/stores/auth.ts`: the `localStorage` key was renamed from
-  `agentbuilder-token` to `swarmy_ui-token` (3 occurrences). `AGENTS.md`
+  the original product's token key to `swarmy_ui-token` (3 occurrences). `AGENTS.md`
   forbids the original product name in any file. Behaviour is identical;
   existing local sessions from the Gen-1 app simply will not be picked up,
   which is correct for a separate app.

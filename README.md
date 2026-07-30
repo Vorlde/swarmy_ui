@@ -1,6 +1,6 @@
 # swarmy_ui
 
-swarmy_ui is a modular, themeable frontend for an AI agent-builder platform.
+swarmy_ui is a modular, themeable frontend for an AI agent orchestration platform.
 It provides the admin UI for composing agents, managing models, tools, and
 prompts, inspecting running threads, browsing the marketplace, and
 administering users, providers, API keys, and variables.

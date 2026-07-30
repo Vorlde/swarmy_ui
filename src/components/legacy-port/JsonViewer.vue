@@ -39,8 +39,7 @@ function render(value: unknown, indent = 0): string {
     if (value.length === 0) return `${punct("[")}${punct("]")}`;
     const items = value.map((v, i) => `${space}  ${render(v, indent + 1)}${i < value.length - 1 ? "," : ""}`);
     return `${punct("[")}
-${items.join("
-")}
+${items.join("\n")}
 ${space}${punct("]")}`;
   }
   if (typeof value === "object") {
@@ -51,8 +50,7 @@ ${space}${punct("]")}`;
       return `${space}  ${key}${punct(":")} ${render(v, indent + 1)}${i < entries.length - 1 ? "," : ""}`;
     });
     return `${punct("{")}
-${items.join("
-")}
+${items.join("\n")}
 ${space}${punct("}")}`;
   }
   return String(value);

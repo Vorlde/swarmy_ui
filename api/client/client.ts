@@ -271,7 +271,7 @@ import type {
   GetVariablesToolsByNameResponse,
 } from './types';
 
-export class AgentBuilderApi {
+export class PlatformApi {
   public readonly baseUrl: string;
   public readonly token?: string;
   private onUnauthorized?: () => void;
@@ -282,7 +282,8 @@ export class AgentBuilderApi {
     this.onUnauthorized = options.onUnauthorized;
   }
 
-  private async request<T>(method: string, path: string, { query, body }: { query?: Record<string, unknown>; body?: unknown } = {}): Promise<T> {
+  /** @internal - used by namespace classes; not part of the public surface. */
+  public async request<T>(method: string, path: string, { query, body }: { query?: Record<string, unknown>; body?: unknown } = {}): Promise<T> {
     let url = `${this.baseUrl}${path}`;
     if (query) {
       const qs = new URLSearchParams();
@@ -328,7 +329,7 @@ export class AgentBuilderApi {
 }
 
 class AgentsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetAgentsRequest): Promise<GetAgentsResponse> {
     return this.api.request('GET', `/api/agents`, { query: undefined, body: undefined });
@@ -348,7 +349,7 @@ class AgentsNamespace {
 }
 
 class ApiKeysNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetApiKeysRequest): Promise<GetApiKeysResponse> {
     return this.api.request('GET', `/api/api-keys`, { query: undefined, body: undefined });
@@ -368,7 +369,7 @@ class ApiKeysNamespace {
 }
 
 class AuthNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async bootstrap(req: PostAuthBootstrapRequest): Promise<PostAuthBootstrapResponse> {
     return this.api.request('POST', `/api/auth/bootstrap`, { query: undefined, body: undefined });
@@ -467,7 +468,7 @@ class AuthNamespace {
 }
 
 class ConfigNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async config(req: GetConfigRequest): Promise<GetConfigResponse> {
     return this.api.request('GET', `/api/config`, { query: undefined, body: undefined });
@@ -484,7 +485,7 @@ class ConfigNamespace {
 }
 
 class DiagnosticsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async diagnostics(req: GetDiagnosticsRequest): Promise<GetDiagnosticsResponse> {
     return this.api.request('GET', `/api/diagnostics`, { query: undefined, body: undefined });
@@ -497,7 +498,7 @@ class DiagnosticsNamespace {
 }
 
 class HooksNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async hooks(req: GetHooksRequest): Promise<GetHooksResponse> {
     return this.api.request('GET', `/api/hooks`, { query: undefined, body: undefined });
@@ -506,7 +507,7 @@ class HooksNamespace {
 }
 
 class MarketplaceNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async getPlatformEndpoint(req: GetPlatformEndpointRequest): Promise<GetPlatformEndpointResponse> {
     return this.api.request('GET', `/api/platform-endpoint`, { query: undefined, body: undefined });
@@ -555,7 +556,7 @@ class MarketplaceNamespace {
 }
 
 class ModelsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetModelsRequest): Promise<GetModelsResponse> {
     return this.api.request('GET', `/api/models`, { query: undefined, body: undefined });
@@ -601,7 +602,7 @@ class ModelsNamespace {
 }
 
 class PackNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async pack(req: PostPackByAgentnameRequest): Promise<PostPackByAgentnameResponse> {
     return this.api.request('POST', `/api/pack/${req.agentName}`, { query: undefined, body: undefined });
@@ -630,7 +631,7 @@ class PackNamespace {
 }
 
 class PlatformauthNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async bootstrap(req: PostPlatformAuthBootstrapRequest): Promise<PostPlatformAuthBootstrapResponse> {
     return this.api.request('POST', `/api/platform-auth/bootstrap`, { query: undefined, body: undefined });
@@ -651,7 +652,7 @@ class PlatformauthNamespace {
 }
 
 class PromptsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetPromptsRequest): Promise<GetPromptsResponse> {
     return this.api.request('GET', `/api/prompts`, { query: undefined, body: undefined });
@@ -671,7 +672,7 @@ class PromptsNamespace {
 }
 
 class ProvidersNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetProvidersRequest): Promise<GetProvidersResponse> {
     return this.api.request('GET', `/api/providers`, { query: undefined, body: undefined });
@@ -694,7 +695,7 @@ class ProvidersNamespace {
 }
 
 class RootNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async postIndex(req: PostRequest): Promise<PostResponse> {
     return this.api.request('POST', `/api`, { query: undefined, body: undefined });
@@ -703,7 +704,7 @@ class RootNamespace {
 }
 
 class SkillsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetSkillsRequest): Promise<GetSkillsResponse> {
     const query = {
@@ -735,7 +736,7 @@ class SkillsNamespace {
 }
 
 class StreamingNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async events(req: GetEventsRequest): Promise<GetEventsResponse> {
     return this.api.request('GET', `/api/events`, { query: undefined, body: undefined });
@@ -744,7 +745,7 @@ class StreamingNamespace {
 }
 
 class ThreadsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetThreadsRequest): Promise<GetThreadsResponse> {
     const query = {
@@ -935,7 +936,6 @@ class ThreadsNamespace {
       role: req.role,
       attachments: req.attachments,
       silent: req.silent,
-      content: req.content,
     };
     return this.api.request('POST', `/api/threads/${req.id}/messages`, { query: undefined, body: body });
   }
@@ -991,7 +991,7 @@ class ThreadsNamespace {
 }
 
 class ToolsNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetToolsRequest): Promise<GetToolsResponse> {
     const query = {
@@ -1008,7 +1008,7 @@ class ToolsNamespace {
 }
 
 class UnpackNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async unpack(req: PostUnpackByPackageidRequest): Promise<PostUnpackByPackageidResponse> {
     return this.api.request('POST', `/api/unpack/${req.packageId}`, { query: undefined, body: undefined });
@@ -1021,7 +1021,7 @@ class UnpackNamespace {
 }
 
 class UsersNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async list(req: GetUsersRequest): Promise<GetUsersResponse> {
     return this.api.request('GET', `/api/users`, { query: undefined, body: undefined });
@@ -1142,7 +1142,7 @@ class UsersNamespace {
 }
 
 class VariablesNamespace {
-  constructor(private api: AgentBuilderApi) {}
+  constructor(private api: PlatformApi) {}
 
   async getAgents(req: GetVariablesAgentsByNameRequest): Promise<GetVariablesAgentsByNameResponse> {
     const query = {
