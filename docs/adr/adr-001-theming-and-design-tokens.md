@@ -1,6 +1,6 @@
 # ADR-001: Theming and Design Tokens (Tailwind v4 @theme)
 
-- Status: Accepted
+- Status: Accepted, **amended 2026-07-30** (see Amendment at the end - the `--agents-accent-*` values below are the fallback branch, not what the live app renders)
 - Context: swarmy_ui must be fully re-themeable. A future developer should be able to change every color, radius, shadow, and font in the app without touching a single component.
 
 ## Decision
@@ -69,7 +69,9 @@ Meaningful names that map to primitives. Components and utilities reference ONLY
   --color-border: #d4d4d4;
   --color-border-hover: #a3a3a3;
 
-  /* agent composition accent family */
+  /* agent composition accent family - AMENDED: this is the no-color-mix
+     FALLBACK branch only. See the Amendment section below for the values
+     Chrome actually applies. */
   --agents-accent-surface-hover: var(--accent-500);
   --agents-accent-surface-selected: var(--accent-500);
   --agents-accent-surface-strong: var(--accent-500);
@@ -105,3 +107,58 @@ Per-primitive aliases, e.g. `--ui-button-bg`, `--ui-badge-fg`. Defined in the pr
 - Tailwind generates utilities from the theme (e.g. `bg-background-soft`, `text-agents-accent-text-muted`), so templates stay semantic.
 - Arbitrary-value utilities (`text-[10px]`) are allowed only for data-table density cases; never for colors.
 - JSON viewer syntax colors are also tokenized (`--json-key`, `--json-string`, ...) with light/dark pairs, so even the code viewer follows the theme.
+
+## Amendment - 2026-07-30 (capture reconciliation, see ADR-009)
+
+The Layer 1 and Layer 2 structure stands. Five values in the original text are
+incomplete or wrong against the live app. Nothing above is deleted; this section
+is the correction of record.
+
+**1. `--agents-accent-*` needs the `color-mix` branch.** The declarations above
+are the fallback. The live app declares them twice, and Chrome applies the
+`@supports (color: color-mix(in lab, red, red))` override:
+
+```css
+@supports (color: color-mix(in lab, red, red)) {
+  :root {
+    --agents-accent-surface-hover:    color-mix(in oklab, var(--accent-500)  8%, #fff);  /* #f8f2ff */
+    --agents-accent-surface-selected: color-mix(in oklab, var(--accent-500) 18%, #fff);  /* #efe3ff */
+    --agents-accent-surface-strong:   color-mix(in oklab, var(--accent-500) 26%, #fff);  /* #e7d6ff */
+    --agents-accent-surface-message:  color-mix(in oklab, var(--accent-500) 18%, #fff);  /* #efe3ff */
+    --agents-accent-text-muted:       color-mix(in oklab, var(--accent-700) 78%, #171717); /* #6527a2 */
+  }
+  :root.dark {
+    --agents-accent-surface-hover:    color-mix(in oklab, var(--accent-500) 14%, #0a0a0a); /* #1c1525 */
+    --agents-accent-surface-selected: color-mix(in oklab, var(--accent-500) 28%, #0a0a0a); /* #302043 */
+    --agents-accent-surface-strong:   color-mix(in oklab, var(--accent-500) 36%, #0a0a0a); /* #3c2655 */
+    --agents-accent-surface-message:  color-mix(in oklab, var(--accent-500) 28%, #0a0a0a); /* #302043 */
+    --agents-accent-text-muted:       color-mix(in oklab, var(--accent-200) 72%, #fafafa); /* #eedffe */
+  }
+}
+```
+
+A selected row is `#efe3ff`, not `#a855f7`. The hex comments are documentation;
+never write them into a component.
+
+**2. Accent switching is a third axis.** Theme is `class="dark"` on `<html>`;
+accent is `data-accent="<name>"` on `<html>` (absent = purple). Ten ramps ship:
+`amber, lime, emerald, sky, blue, indigo, purple (default), fuchsia, pink, white`,
+declared as `:root[data-accent="<name>"]`. They are the ten swatches in the
+settings popover, and each redefines the full `--accent-50..950` scale.
+
+**3. Body typography.** `body { font-size: 15px; line-height: 24px }` and
+`body { transition: color .5s, background-color .5s }`. `body` uses the legacy
+Vue-scaffold font stack while everything inside `.app-container` inherits
+`--font-sans`. Both start with `Public Sans`. Replicate both stacks.
+
+**4. Shell surfaces.** `.app-container` is `bg-neutral-50/80` over a white body
+(dark: `bg-black`, while `body` stays `#181818`). `main` is
+`rounded-l-xl border-l border-neutral-200 my-3`. The sidebar `aside` has **no**
+background of its own.
+
+**5. Shadows are not tokens in the Tailwind sense.** The theme's shadow scale is
+unused. Depth is a painted canvas hatch through the `DropShadow` component
+(ADR-009 Decision 2). Layer 2 therefore gains `--dropshadow-color`,
+`--dropshadow-color-dark`, `--dropshadow-line-width`, `--dropshadow-pattern` and
+the `--elevation-sm/md/lg` triples, and the Tailwind `shadow-*` utilities stay
+out of components.

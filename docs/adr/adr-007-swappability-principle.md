@@ -1,6 +1,6 @@
 # ADR-007: The Swappability Principle (CORE DECISION)
 
-- Status: Accepted
+- Status: Accepted, **amended 2026-07-30** (see Amendment at the end - the five seams gained a registration mechanism in ADR-008 and an elevation seam in ADR-009)
 - Context: swarmy_ui's defining constraint: **any part of the UI layer - theme, colors, component appearance, layout, even the entire skin - must be replaceable without touching functionality.** Business logic, data flow, and behavior are stable; everything the user sees is a replaceable surface.
 
 ## Decision
@@ -75,3 +75,32 @@ Modals and edit panes are mounted through `EditSurfaceHost` from the uiStore mod
 
 - Slightly more indirection up front (primitive components for everything, store actions for every network call).
 - The payoff: re-theming is a CSS task; reskinning is a single-directory task; a full UI redesign touches no store, no API code, and no domain logic. This is the property every other ADR protects.
+
+## Amendment - 2026-07-30
+
+The five seams stand unchanged. Two things were missing.
+
+**1. Seams 2, 3 and 5 had no mechanism.** "A different visual implementation of
+`ModelNode` drops into the canvas unchanged" was true of the props contract and
+false of the wiring, because a `v-if` chain still named the component. ADR-008
+adds four registries - views, inspector tabs, canvas node types, list column
+sets - so a replacement or an addition registers itself instead of being named by
+core. The enforcement table below gains a row:
+
+| Rule | Enforced by |
+|------|-------------|
+| Core never imports a feature module | Import boundary lint (`src/router`, `src/components/ui` and shell components may not import `src/features/**`) |
+
+**2. Elevation was an unowned seam.** Depth is not a Tailwind `shadow-*`
+utility in this product; it is a painted canvas hatch behind a single
+`DropShadow` component (ADR-009 Decision 2). That makes elevation a Seam 2
+primitive like any other: re-elevating the whole app is one component plus its
+tokens. The Seam 2 rule now reads: no feature component may apply colour, radius,
+**shadow/elevation**, or font utilities to a raw HTML element when a `Ui*`
+primitive exists for that purpose.
+
+**3. Fidelity outranks taste, for now.** ADR-009 makes `exact-tokens.md`
+authoritative and forbids aesthetic improvement during the replica build. That
+is not in tension with swappability - it is the payoff. Because every captured
+value lands in a token and every captured surface lands in a primitive, the
+first deliberate redesign is a token and primitive edit, not a rewrite.

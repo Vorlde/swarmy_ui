@@ -1,6 +1,6 @@
 # ADR-005: Composition Canvas - Custom SVG, Not a Graph Library
 
-- Status: Accepted
+- Status: Accepted, **amended 2026-07-30** (see Amendment at the end - zoom is the CSS `zoom` property, and node types are resolved through a registry)
 - Context: The heart of swarmy_ui is the agent composition canvas on `/agents`: agent cards with attached model nodes, tool nodes (tool/prompt/subagent/handoff/provider/mcp), hook nodes, side A/B participant nodes, bezier edges, groups, pan/zoom, and an auto-layout algorithm. We evaluated graph libraries (Vue Flow, vue-nodus) against building it ourselves.
 
 ## Decision
@@ -17,7 +17,7 @@ flowchart TB
     CC --> Nodes["Node layer (absolutely positioned HTML)"]
     CC --> Controls["CanvasControls (zoom/fit)"]
     Nodes --> AgentNode & SidePromptNode & ModelNode & ToolNode & HookNode
-    CC -.-> PZ["usePanZoom() composable<br/>(pointer capture + wheel zoom,<br/>CSS transform on viewport)"]
+    CC -.-> PZ["usePanZoom() composable<br/>(pointer capture + stepped zoom,<br/>translate3d pan + CSS zoom)"]
     Layout["buildLayout()<br/>custom auto-layout (non-ELK)"] --> CC
 ```
 
@@ -54,3 +54,45 @@ interface CompositionLayout {
 - Highest-effort component in the app (estimate 2-4 weeks).
 - Must implement: pan/zoom, node measurement, edge routing (cubic bezier with per-kind anchors), group bounds, fit-to-content, and the auto-layout heuristic.
 - Vue Flow remains the documented fallback if schedule forces an accelerator.
+
+## Amendment - 2026-07-30 (capture reconciliation, see ADR-009)
+
+The decision to build the canvas ourselves stands, and so does every reason for
+it. Two mechanics in the text above are wrong against the live app.
+
+**1. Zoom is the CSS `zoom` property, not `transform: scale()`.** The transform
+layer is `absolute origin-top-left will-change-transform` with:
+
+```css
+transform: translate3d(tx, ty, 0);   /* pan  */
+zoom: <scale>;                       /* zoom */
+transform-origin: 0 0;
+transition: opacity 200ms ease-out;
+```
+
+Pan is compositor-only; zoom re-runs layout, which is why node text is crisp at
+11% and at 51%. `usePanZoom` must therefore expose pan and zoom as separate
+outputs, and screen-to-canvas math must account for `zoom` already being applied
+to child `getBoundingClientRect()` results - measured node sizes come back in
+zoomed pixels and must be divided by the zoom before they enter the layout model.
+Zoom is stepped (`+`/`-` in ~4-point increments, a fourth fit-to-screen button),
+not continuous. Default view is fit-to-content: 11% for the reference agent.
+Full detail in `specs/composition-canvas/panzoom.md` and ADR-009 Decision 3.
+
+**2. Node components are resolved through a registry, not a `v-if` chain.** Six
+kinds render today (`agent`, `prompt`, `function`, `subagent`, `human`, `model`).
+The node layer looks the component up by `node.kind` in the `canvasNodes`
+registry (ADR-008 seam 3). A new node kind is a plug, not an edit to the node
+layer. This is the mechanism that the "Swappability" section above was asserting
+without one.
+
+**3. Canvas chrome, measured.** Viewport `relative flex-1 overflow-hidden
+bg-neutral-100/50 dark:bg-neutral-950/50`, inner `absolute inset-0 cursor-grab`.
+Dot grid is an inline SVG `<pattern id="canvas-dot-grid" width=24 height=24>`
+with `<circle cx=12 cy=12 r=1 class="fill-neutral-400/20">`; group sub-grids use
+a 20x20 pattern with `r=0.75` at `/15`. Groups are `[data-canvas-group]` with
+`bg-[#f7f7f7] dark:bg-[#1e1e1e]` and an 8px radius. The live DOM carries
+`data-canvas-node`, `data-canvas-node-id`, `data-canvas-group`,
+`data-canvas-model-node`, `data-edge-id`, `data-edge-kind`,
+`data-edge-tool-kind`, `data-model-anchor`, `data-variables-section` and
+`data-tool-column`; keep those names, they are the test and measurement handles.
