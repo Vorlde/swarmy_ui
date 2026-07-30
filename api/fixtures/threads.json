@@ -1,0 +1,22 @@
+{
+  "threads": [
+    {
+      "id": "540aeabf-5abb-457d-ac13-49e6d6c1900f",
+      "agent_id": "order_support_agent",
+      "user_id": null,
+      "tags": [
+        "Order Refund"
+      ],
+      "parent": null,
+      "terminated": null,
+      "created_at": 1785240854,
+      "agent": {
+        "name": "order_support_agent",
+        "title": "order_support_agent",
+        "type": "ai_human"
+      }
+    }
+  ],
+  "total": 1,
+  "hasMore": false
+}

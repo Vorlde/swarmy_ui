@@ -1,0 +1,119 @@
+{
+  "check_customer_history": {
+    "description": "Pull the customer history behind an order: account age, recent refund count, total refunded, and any risk flags.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "check_refund_policy": {
+    "description": "Check whether an order qualifies for an automatic refund, based on how long ago it was delivered and how much it cost.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "check_warehouse_stock": {
+    "description": "Check stock levels for a product across all warehouses. Returns quantity, restock date, and shelf location per warehouse.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "close_ticket": {
+    "description": "Close the support ticket. Call this once the customer issue is fully resolved. This ends the conversation.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "find_order": {
+    "description": "Look up a customer order by its order ID. Returns the item, amount, days since delivery, and current status.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "finish_inventory_check": {
+    "description": "Finish the inventory check and report back. Call this once you have verified stock across all warehouses.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "finish_risk_review": {
+    "description": "Finish the fraud risk review and report the verdict back. Call this once the Advocate has had their say.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "issue_refund": {
+    "description": "Issue a refund for an order. Only call this after check_refund_policy has confirmed the refund is allowed.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "tool"
+  },
+  "customer_advocate": {
+    "description": "Argues the customer side against a risk verdict",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "prompt",
+    "model": "default"
+  },
+  "inventory_reviewer": {
+    "description": "Verifies inventory findings",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "prompt",
+    "model": "default"
+  },
+  "inventory_worker": {
+    "description": "Gathers warehouse stock data",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "prompt",
+    "model": "default"
+  },
+  "order_support": {
+    "description": "Handle customer order and refund requests",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "prompt",
+    "model": "default"
+  },
+  "risk_analyst": {
+    "description": "Assesses fraud risk on an order",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "prompt",
+    "model": "default"
+  },
+  "fraud_review_agent": {
+    "description": "Assess fraud risk on an order before refunding it. A risk analyst and a customer advocate debate, and return a verdict.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "subagent"
+  },
+  "inventory_check_agent": {
+    "description": "Check warehouse stock for a product SKU across all locations, with a second AI verifying the result.",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "subagent"
+  },
+  "order_support_agent": {
+    "description": "Execute the order_support_agent agent",
+    "schema": null,
+    "variables": [],
+    "hasError": false,
+    "type": "handoff"
+  }
+}

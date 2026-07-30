@@ -1,0 +1,39 @@
+{
+  "values": [
+    {
+      "key": "context_usage",
+      "value": {
+        "inputTokens": 1071,
+        "totalTokens": 1278,
+        "maxContextTokens": 1048576,
+        "model": "default",
+        "at": 1785246240931
+      },
+      "serialized": "{\"inputTokens\":1071,\"totalTokens\":1278,\"maxContextTokens\":1048576,\"model\":\"default\",\"at\":1785246240931}",
+      "size": 103,
+      "updatedAt": 1785246240931000
+    },
+    {
+      "key": "risk_review",
+      "value": {
+        "verdict": "approve",
+        "riskScore": 2,
+        "reasons": [
+          "Account age >3 years (1,240 days)",
+          "Zero refunds in last 90 days",
+          "Total refunded amount is $0",
+          "No risk flags on account"
+        ],
+        "advocateObjection": "The Customer Advocate offered no objection.",
+        "recordedAt": "2026-07-28T13:44:00.935Z"
+      },
+      "serialized": "{\"verdict\":\"approve\",\"riskScore\":2,\"reasons\":[\"Account age >3 years (1,240 days)\",\"Zero refunds in last 90 days\",\"Total refunded amount is $0\",\"No risk flags on account\"],\"advocateObjection\":\"The Customer Advocate offered no objection.\",\"recordedAt\":\"2026-07-28T13:44:00.935Z\"}",
+      "size": 277,
+      "updatedAt": 1785246240935000
+    }
+  ],
+  "total": 2,
+  "limit": 100,
+  "offset": 0,
+  "search": null
+}

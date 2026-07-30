@@ -1,0 +1,45 @@
+{
+  "totalCost": 0.000555583,
+  "inputCost": 0.00012866,
+  "cachedCost": 6.4512e-05,
+  "outputCost": 0.00010836,
+  "routerFeeCost": 0,
+  "ownCost": 0.000555583,
+  "requestCount": 4,
+  "messageCount": 1,
+  "avgCostPerMessage": 0.000555583,
+  "modelBreakdown": [
+    {
+      "modelName": "deepseek/deepseek-v4-flash",
+      "totalCost": 0.000555583,
+      "inputCost": 0.00012866,
+      "cachedCost": 6.4512e-05,
+      "outputCost": 0.00010836,
+      "routerFeeCost": 0,
+      "requestCount": 4,
+      "avgCostPerRequest": 0.00013889575
+    }
+  ],
+  "avgCostPerMessageByModel": {
+    "deepseek/deepseek-v4-flash": {
+      "avgCost": 0.00013889575,
+      "messageCount": 4
+    }
+  },
+  "threads": [
+    {
+      "threadId": "5b7d70b6-7c11-4c5f-b5d7-60ce00494b7c",
+      "agentName": "fraud_review_agent",
+      "threadName": null,
+      "parent": null,
+      "isRoot": true,
+      "totalCost": 0.000555583,
+      "inputCost": 0.00012866,
+      "cachedCost": 6.4512e-05,
+      "outputCost": 0.00010836,
+      "routerFeeCost": 0,
+      "requestCount": 4
+    }
+  ],
+  "truncated": false
+}

@@ -1,0 +1,24 @@
+{
+  "thread": {
+    "id": "5b7d70b6-7c11-4c5f-b5d7-60ce00494b7c",
+    "agent_id": "fraud_review_agent",
+    "user_id": null,
+    "tags": [],
+    "parent": "540aeabf-5abb-457d-ac13-49e6d6c1900f",
+    "terminated": 1785246243875000,
+    "created_at": 1785246224
+  },
+  "agent": {
+    "id": "fraud_review_agent",
+    "title": "fraud_review_agent",
+    "type": "dual_ai",
+    "side_a_label": "Risk Analyst",
+    "side_b_label": "Customer Advocate",
+    "side_a_agent_prompt": "risk_analyst",
+    "side_b_agent_prompt": "customer_advocate"
+  },
+  "stats": {
+    "message_count": 9,
+    "log_count": 4
+  }
+}

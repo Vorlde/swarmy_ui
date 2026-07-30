@@ -1,0 +1,8 @@
+{
+  "user": {
+    "id": "super_admin",
+    "username": "admin",
+    "role": "admin"
+  },
+  "authType": "super_admin"
+}

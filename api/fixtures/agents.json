@@ -1,0 +1,58 @@
+{
+  "agents": [
+    {
+      "id": "fraud_review_agent",
+      "name": "fraud_review_agent",
+      "title": "fraud_review_agent",
+      "type": "dual_ai",
+      "description": null,
+      "icon": null,
+      "default_prompt": "risk_analyst",
+      "default_model": "",
+      "tools": [],
+      "side_a_label": "Risk Analyst",
+      "side_a_agent_prompt": "risk_analyst",
+      "side_b_label": "Customer Advocate",
+      "side_b_agent_prompt": "customer_advocate",
+      "env": null,
+      "created_at": 1785279416,
+      "packed": false
+    },
+    {
+      "id": "inventory_check_agent",
+      "name": "inventory_check_agent",
+      "title": "inventory_check_agent",
+      "type": "dual_ai",
+      "description": null,
+      "icon": null,
+      "default_prompt": "inventory_worker",
+      "default_model": "",
+      "tools": [],
+      "side_a_label": "Worker",
+      "side_a_agent_prompt": "inventory_worker",
+      "side_b_label": "Reviewer",
+      "side_b_agent_prompt": "inventory_reviewer",
+      "env": null,
+      "created_at": 1785279416,
+      "packed": false
+    },
+    {
+      "id": "order_support_agent",
+      "name": "order_support_agent",
+      "title": "order_support_agent",
+      "type": "ai_human",
+      "description": null,
+      "icon": null,
+      "default_prompt": "order_support",
+      "default_model": "",
+      "tools": [],
+      "side_a_label": "Support",
+      "side_a_agent_prompt": "order_support",
+      "side_b_label": null,
+      "side_b_agent_prompt": null,
+      "env": null,
+      "created_at": 1785279416,
+      "packed": false
+    }
+  ]
+}
