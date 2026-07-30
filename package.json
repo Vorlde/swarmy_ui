@@ -18,7 +18,7 @@
     "clsx": "^2.1.0",
     "lucide-vue-next": "^0.400.0",
     "monaco-editor": "^0.50.0",
-    "reka-ui": "^1.0.0",
+    "reka-ui": "^2.10.1",
     "shiki": "^1.0.0",
     "tailwind-merge": "^2.3.0",
     "vee-validate": "^4.13.0",
